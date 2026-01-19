@@ -1,17 +1,33 @@
+// backend/src/routes/order.routes.js
 import express from 'express';
-import * as orderController from '../controllers/orderController.js';
-import { protect, restrictTo } from '../middleware/auth.js';
+import {
+    createOrder,
+    getOrderById,
+    getUserOrders,
+    updateOrderStatus,
+    cancelOrder,
+    getAdminOrders,
+    getOrderStats,
+    updateOrderTracking
+} from '../controllers/orderController.js';
+import { authenticate, authorize } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.use(protect);
+// User routes
+router.use(authenticate);
 
-router.post('/', orderController.createOrder);
-router.get('/my-orders', orderController.getMyOrders);
-router.get('/stats', orderController.getOrderStatistics);
-router.get('/:id', orderController.getOrder);
-router.post('/:id/cancel', orderController.cancelOrder);
-router.get('/track/:order_number', orderController.trackOrder);
-router.post('/:id/return', orderController.requestReturn);
+router.post('/', createOrder);
+router.get('/user', getUserOrders);
+router.get('/:id', getOrderById);
+router.put('/:id/cancel', cancelOrder);
+
+// Admin routes
+router.use(authorize('admin'));
+
+router.get('/admin/all', getAdminOrders);
+router.get('/admin/stats', getOrderStats);
+router.put('/:id/status', updateOrderStatus);
+router.put('/:id/tracking', updateOrderTracking);
 
 export default router;

@@ -14,12 +14,21 @@ const HomePage = lazy(() => import('./pages/HomePage'))
 const ProductsPage = lazy(() => import('./pages/ProductsPage'))
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'))
 const CartPage = lazy(() => import('./pages/CartPage'))
+
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'))
+const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage'))
+
 const LoginPage = lazy(() => import('./pages/Auth/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'))
+
+// User Pages
+const UserDashboardPage = lazy(() => import('./pages/User/DashboardPage'))
+const UserOrdersPage = lazy(() => import('./pages/User/OrdersPage'))
+const UserOrderDetailPage = lazy(() => import('./pages/User/OrderDetailPage'))
 const ProfilePage = lazy(() => import('./pages/User/ProfilePage'))
-const OrderHistoryPage = lazy(() => import('./pages/User/OrderHistoryPage'))
+const AddressesPage = lazy(() => import('./pages/User/AddressesPage'))
 const WishlistPage = lazy(() => import('./pages/User/WishlistPage'))
+const OrderHistoryPage = lazy(() => import('./pages/User/OrderHistoryPage')) // Keeping for backward compatibility if needed, or remove if unused
 
 // Admin Pages
 const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'))
@@ -58,6 +67,18 @@ function App() {
                             {/* Protected User Routes */}
                             <Route element={<ProtectedRoute allowedRoles={['customer', 'admin']} />}>
                                 <Route path="checkout" element={<CheckoutPage />} />
+                                <Route path="order-confirmation/:orderId" element={<OrderConfirmationPage />} />
+
+                                <Route path="user">
+                                    <Route path="dashboard" element={<UserDashboardPage />} />
+                                    <Route path="orders" element={<UserOrdersPage />} />
+                                    <Route path="orders/:id" element={<UserOrderDetailPage />} />
+                                    <Route path="addresses" element={<AddressesPage />} />
+                                    <Route path="profile" element={<ProfilePage />} />
+                                    <Route path="wishlist" element={<WishlistPage />} />
+                                </Route>
+
+                                {/* Legacy/Direct Routes - Optional, keeping for safety */}
                                 <Route path="profile" element={<ProfilePage />} />
                                 <Route path="orders" element={<OrderHistoryPage />} />
                                 <Route path="wishlist" element={<WishlistPage />} />
