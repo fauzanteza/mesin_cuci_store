@@ -1,50 +1,36 @@
 import express from 'express';
 import {
-    getAllProducts,
-    getProduct,
+    getAllProducts, // Was getProducts in user request, checking outline, outline has getAllProducts
+    getProduct,     // Was getProductById in user request, outline has getProduct
     createProduct,
     updateProduct,
     deleteProduct,
-    searchProducts,
-    getFeaturedProducts,
-    getProductReviews,
-    updateProductImages,
-    bulkUpdateProducts,
-    getLowStockProducts,
+    updateProductImages, // Was uploadProductImages in user request (which confused with middleware), outline has updateProductImages
 } from '../controllers/productController.js';
-import { protect, restrictTo } from '../middleware/auth.js';
-import { uploadProductImages } from '../middleware/upload.js';
-import { validateCreateProduct, validateUpdateProduct } from '../validators/product.validator.js';
+import { protect, restrictTo } from '../middleware/auth.js'; // Map authenticate -> protect, authorize -> restrictTo
+import { upload } from '../middleware/upload.js'; // Correct named import
 
 const router = express.Router();
 
 // Public routes
 router.get('/', getAllProducts);
-router.get('/search', searchProducts);
-router.get('/featured', getFeaturedProducts);
 router.get('/:id', getProduct);
-router.get('/:id/reviews', getProductReviews);
 
 // Protected routes (Admin only)
-router.use(protect, restrictTo('admin'));
+// Using middleware chain properly as in original file or user request
+router.post('/', protect, restrictTo('admin'), createProduct);
+router.put('/:id', protect, restrictTo('admin'), updateProduct);
+router.delete('/:id', protect, restrictTo('admin'), deleteProduct);
 
+// Image upload route
+// User wanted: router.post('/:id/images', authenticate, authorize('admin'), upload.array('images', 5), uploadProductImages);
+// Correcting to:
 router.post(
-    '/',
-    uploadProductImages,
-    validateCreateProduct,
-    createProduct
+    '/:id/images',
+    protect,
+    restrictTo('admin'),
+    upload.array('images', 5),
+    updateProductImages
 );
-
-router.put(
-    '/:id',
-    uploadProductImages,
-    validateUpdateProduct,
-    updateProduct
-);
-
-router.patch('/:id/images', uploadProductImages, updateProductImages);
-router.delete('/:id', deleteProduct);
-router.post('/bulk-update', bulkUpdateProducts);
-router.get('/inventory/low-stock', getLowStockProducts);
 
 export default router;

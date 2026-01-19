@@ -1,59 +1,106 @@
-import app from './app.js';
-import http from 'http';
-import { connectDB } from './config/database.js';
-import { initSocket } from './socket/socket.js';
-import logger from './utils/logger.js';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import 'express-async-errors';
+
+// Import routes
+import authRoutes from './routes/auth.routes.js';
+import productRoutes from './routes/product.routes.js';
+import orderRoutes from './routes/order.routes.js';
+import userRoutes from './routes/user.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import cartRoutes from './routes/cart.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
+// Add any other existing routes if needed based on file list, but these cover the main ones requested
+// The user's request listed these specific ones.
+
+// Import middleware
+import errorHandler from './middleware/errorHandler.js';
+import notFound from './middleware/notFound.js';
+import loggerMiddleware from './middleware/logger.js'; // Default export in logger.js
 
 // Load environment variables
-import dotenv from 'dotenv';
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Create HTTP server
-const server = http.createServer(app);
+// ========== MIDDLEWARE SETUP ==========
+app.use(helmet());
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    credentials: true
+}));
+app.use(compression());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(morgan('combined'));
+app.use(loggerMiddleware);
 
-// Connect to database
-connectDB()
-    .then(() => {
-        logger.info('✅ Database connected successfully');
+// ========== STATIC FILES ==========
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-        // Initialize Socket.io
-        initSocket(server);
+// ========== API ROUTES ==========
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/payments', paymentRoutes);
 
-        // Start server
-        server.listen(PORT, () => {
-            logger.info(`🚀 Server running on port ${PORT}`);
-            logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-            logger.info(`📚 API: http://localhost:${PORT}/api`);
-            logger.info(`📊 Health: http://localhost:${PORT}/api/health`);
+// ========== HEALTH CHECK ==========
+app.get('/api/health', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        message: 'Server is running',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// ========== ROOT ENDPOINT ==========
+app.get('/api', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        message: 'Welcome to Mesin Cuci Store API',
+        version: '1.0.0',
+        endpoints: {
+            auth: '/api/auth',
+            products: '/api/products',
+            orders: '/api/orders',
+            users: '/api/users',
+            cart: '/api/cart',
+            payments: '/api/payments',
+            admin: '/api/admin'
+        }
+    });
+});
+
+// ========== ERROR HANDLING ==========
+app.use(notFound);
+app.use(errorHandler);
+
+// ========== START SERVER ==========
+const startServer = async () => {
+    try {
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
+            console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+            console.log(`📚 Base URL: http://localhost:${PORT}/api`);
         });
-    })
-    .catch((error) => {
-        logger.error('❌ Database connection failed:', error);
+    } catch (error) {
+        console.error('Failed to start server:', error);
         process.exit(1);
-    });
+    }
+};
 
-// Error handling
-process.on('unhandledRejection', (err) => {
-    logger.error('UNHANDLED REJECTION! 💥 Shutting down...');
-    logger.error(err.name, err.message);
-    server.close(() => {
-        process.exit(1);
-    });
-});
-
-process.on('uncaughtException', (err) => {
-    logger.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-    logger.error(err.name, err.message);
-    process.exit(1);
-});
-
-process.on('SIGTERM', () => {
-    logger.info('👋 SIGTERM received. Shutting down gracefully');
-    server.close(() => {
-        logger.info('💥 Process terminated');
-    });
-});
-
-export default server;
+startServer();
