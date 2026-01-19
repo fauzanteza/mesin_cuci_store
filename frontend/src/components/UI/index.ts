@@ -4,6 +4,7 @@ export { default as Input } from './Input';
 export { default as Select } from './Select';
 export { default as Badge } from './Badge';
 export { default as Tabs } from './Tabs';
+export * from './FileUploader';
 export { default as Modal } from './Modal';
 export { default as Radio } from './Radio';
 export { default as Alert } from './Alert';
