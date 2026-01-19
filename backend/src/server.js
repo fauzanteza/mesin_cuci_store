@@ -16,6 +16,9 @@ import userRoutes from './routes/user.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
+import categoryRoutes from './routes/category.routes.js'; // Added
+import reviewRoutes from './routes/review.routes.js';     // Added
+import uploadRoutes from './routes/upload.routes.js';     // Added
 // Add any other existing routes if needed based on file list, but these cover the main ones requested
 // The user's request listed these specific ones.
 
@@ -56,6 +59,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/categories', categoryRoutes); // Added
+app.use('/api/reviews', reviewRoutes);     // Added
+app.use('/api/upload', uploadRoutes);       // Added
 
 // ========== HEALTH CHECK ==========
 app.get('/api/health', (req, res) => {
@@ -80,7 +86,10 @@ app.get('/api', (req, res) => {
             users: '/api/users',
             cart: '/api/cart',
             payments: '/api/payments',
-            admin: '/api/admin'
+            admin: '/api/admin',
+            categories: '/api/categories',
+            reviews: '/api/reviews',
+            upload: '/api/upload'
         }
     });
 });
