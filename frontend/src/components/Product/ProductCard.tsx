@@ -31,7 +31,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     const dispatch = useDispatch()
     const [isHovered, setIsHovered] = useState(false)
-    const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [localWishlisted, setLocalWishlisted] = useState(false) // Assuming false for now
 
     const isInStock = stock > 0 && is_available
@@ -43,10 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const handleAddToCart = () => {
         dispatch(
             addToCart({
-                id: id,
-                name,
-                price,
-                image: displayImage,
+                product,
                 quantity: 1,
             })
         )
@@ -94,6 +90,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <button
                 onClick={handleWishlistToggle}
                 className="absolute top-3 right-3 z-10 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                title={localWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             >
                 <Heart
                     className={`w-5 h-5 ${localWishlisted ? 'fill-danger-500 text-danger-500' : 'text-gray-400'

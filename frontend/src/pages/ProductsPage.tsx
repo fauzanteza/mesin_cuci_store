@@ -16,9 +16,9 @@ const ProductsPage: React.FC = () => {
     // Construct filters object for the API call
     const filters = useMemo(() => ({
         category: selectedCategory,
-        minPrice: priceRange[0],
-        maxPrice: priceRange[1],
-        sortBy: sortBy,
+        min_price: priceRange[0],
+        max_price: priceRange[1],
+        sort: sortBy,
     }), [selectedCategory, priceRange, sortBy]);
 
     // Fetch Products
@@ -28,7 +28,7 @@ const ProductsPage: React.FC = () => {
     })
 
     const products = productResponse?.data?.products || [];
-    const pagination = productResponse?.data?.pagination;
+    // const pagination = productResponse?.data?.pagination;
 
     // Fetch Categories
     const { data: categories, isLoading: categoriesLoading } = useQuery({
@@ -63,12 +63,12 @@ const ProductsPage: React.FC = () => {
             case 'newest':
                 result.sort(
                     (a, b) =>
-                        new Date(b.createdAt || '').getTime() -
-                        new Date(a.createdAt || '').getTime()
+                        new Date(b.created_at || '').getTime() -
+                        new Date(a.created_at || '').getTime()
                 )
                 break
             case 'featured':
-                result.sort((a, b) => (b.featured === a.featured ? 0 : b.featured ? 1 : -1))
+                result.sort((a, b) => (b.is_featured === a.is_featured ? 0 : b.is_featured ? 1 : -1))
                 break
         }
 

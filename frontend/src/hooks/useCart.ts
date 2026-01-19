@@ -1,41 +1,55 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { addToCart, removeFromCart, decreaseQuantity, clearCart } from '../store/slices/cartSlice';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    selectCartItems,
+    selectCartTotal,
+    selectCartCount
+} from '../store/slices/cartSlice';
 import { Product } from '../types/product.types';
 
 export const useCart = () => {
     const dispatch = useDispatch();
-    const { items, totalQuantity, totalAmount } = useSelector((state: RootState) => state.cart);
+    const items = useSelector(selectCartItems);
+    const total = useSelector(selectCartTotal);
+    const count = useSelector(selectCartCount);
 
-    const addItem = (product: Product, quantity: number = 1) => {
-        dispatch(addToCart({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            image: product.images?.[0]?.image_url || '',
-            quantity
-        }));
-    };
+    const addItem = useCallback((product: Product, quantity: number = 1) => {
+        dispatch(addToCart({ product, quantity }));
+    }, [dispatch]);
 
-    const removeItem = (id: string) => {
-        dispatch(removeFromCart(id));
-    };
+    const removeItem = useCallback((itemId: string) => {
+        dispatch(removeFromCart(itemId));
+    }, [dispatch]);
 
-    const decreaseItemQuantity = (id: string) => {
-        dispatch(decreaseQuantity(id));
-    };
+    const updateItemQuantity = useCallback((itemId: string, quantity: number) => {
+        dispatch(updateQuantity({ id: itemId, quantity }));
+    }, [dispatch]);
 
-    const clear = () => {
+    const clearAll = useCallback(() => {
         dispatch(clearCart());
-    };
+    }, [dispatch]);
+
+    const getItem = useCallback((productId: string) => {
+        return items.find(item => item.product.id === productId);
+    }, [items]);
+
+    const isInCart = useCallback((productId: string) => {
+        return items.some(item => item.product.id === productId);
+    }, [items]);
 
     return {
-        cartItems: items,
-        totalQuantity,
-        totalAmount,
+        items,
+        total,
+        count,
         addItem,
         removeItem,
-        decreaseItemQuantity,
-        clearCart: clear
+        updateItemQuantity,
+        clearAll,
+        getItem,
+        isInCart,
     };
 };

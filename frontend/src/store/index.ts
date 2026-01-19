@@ -1,21 +1,39 @@
-import { configureStore } from '@reduxjs/toolkit'
-import authReducer from './slices/authSlice'
-import cartReducer from './slices/cartSlice'
-import productReducer from './slices/productSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import cartReducer from './slices/cartSlice';
+import authReducer from './slices/authSlice';
+import productReducer from './slices/productSlice';
+
+// Persist config for cart
+const persistConfig = {
+    key: 'cart',
+    storage,
+    whitelist: ['items'] // Only persist cart items
+};
+
+const persistedCartReducer = persistReducer(persistConfig, cartReducer);
+
+const rootReducer = combineReducers({
+    cart: persistedCartReducer,
+    auth: authReducer,
+    products: productReducer,
+});
 
 export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        cart: cartReducer,
-        products: productReducer,
-    },
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            serializableCheck: false,
+            serializableCheck: {
+                ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+            },
         }),
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export const persistor = persistStore(store);
 
-export default store
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

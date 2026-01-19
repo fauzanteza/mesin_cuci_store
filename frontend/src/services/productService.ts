@@ -59,7 +59,7 @@ export const productService = {
     },
 
     // Get related products
-    getRelatedProducts: async (productId: string, categoryId: string) => {
+    getRelatedProducts: async (_productId: string, categoryId: string) => {
         const response = await api.get<{ success: boolean, data: { products: Product[] } }>(
             `/products?category=${categoryId}&limit=4`
         )

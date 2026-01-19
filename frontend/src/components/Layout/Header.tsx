@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, ShoppingCart, User, LogOut, Package, LayoutDashboard, Search } from 'lucide-react';
+import { Menu, LogOut, Package, LayoutDashboard, User } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { useCart } from '../../hooks/useCart';
+// import { useCart } from '../../hooks/useCart'; // MiniCart handles this
 import { SearchBar } from '../Common';
+import MiniCart from '../Cart/MiniCart';
 import MobileSidebar from './MobileSidebar';
 
 const Header = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { user, isAuthenticated, logout } = useAuth();
-    const { totalQuantity } = useCart();
+    // const { count } = useCart(); // MiniCart handles this
     const navigate = useNavigate();
 
-    const handleSearch = (query: string) => {
-        if (query.trim()) {
-            navigate(`/products?search=${encodeURIComponent(query)}`);
-        }
-    };
+    // const handleSearch = (query: string) => {
+    //     if (query.trim()) {
+    //         navigate(`/products?search=${encodeURIComponent(query)}`);
+    //     }
+    // };
 
     return (
         <>
@@ -41,11 +42,6 @@ const Header = () => {
                         {/* Search Bar - Desktop */}
                         <div className="hidden md:flex flex-1 max-w-xl mx-4">
                             <SearchBar placeholder="Cari mesin cuci, sparepart..." onSearch={(val: string) => { /* Debounce handled in page or enter key? For now simple input */ }} />
-                            {/* Note: The common SearchBar might need an onSubmit prop for Enter key, 
-                                but for now let's assume it updates dynamic search or we'll enhance it. 
-                                Actually, let's just use a direct implementation here for better control if needed, 
-                                but reusing is better. I'll stick to the reuse but maybe I need to wrap it.
-                            */}
                         </div>
 
                         {/* Desktop Navigation Links (Optional/Secondary) */}
@@ -56,16 +52,8 @@ const Header = () => {
 
                         {/* Right Area: Cart & User */}
                         <div className="flex items-center space-x-4">
-                            {/* Mobile Search Icon Toggle (could be added) */}
-
-                            <Link to="/cart" className="relative text-gray-700 hover:text-blue-600 p-1">
-                                <ShoppingCart className="h-6 w-6" />
-                                {totalQuantity > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
-                                        {totalQuantity}
-                                    </span>
-                                )}
-                            </Link>
+                            {/* MiniCart Component */}
+                            <MiniCart />
 
                             {isAuthenticated ? (
                                 <div className="hidden md:block relative group">
