@@ -171,7 +171,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         ({Number(rating || 0).toFixed(1)})
                     </span>
                     <span className="text-sm text-gray-400 ml-2">
-                        {reviewCount || 0} reviews
+                        {review_count || 0} reviews
                     </span>
                 </div>
 

@@ -13,11 +13,22 @@ const ProductsPage: React.FC = () => {
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 20000000])
     const [sortBy, setSortBy] = useState('newest')
 
+    // Construct filters object for the API call
+    const filters = useMemo(() => ({
+        category: selectedCategory,
+        minPrice: priceRange[0],
+        maxPrice: priceRange[1],
+        sortBy: sortBy,
+    }), [selectedCategory, priceRange, sortBy]);
+
     // Fetch Products
-    const { data: products, isLoading: productsLoading } = useQuery({
-        queryKey: ['products'],
-        queryFn: () => productService.getAllProducts(),
+    const { data: productResponse, isLoading: productsLoading } = useQuery({
+        queryKey: ['products', filters],
+        queryFn: () => productService.getProducts(filters),
     })
+
+    const products = productResponse?.data?.products || [];
+    const pagination = productResponse?.data?.pagination;
 
     // Fetch Categories
     const { data: categories, isLoading: categoriesLoading } = useQuery({
@@ -27,8 +38,6 @@ const ProductsPage: React.FC = () => {
 
     // Filter and Sort Logic
     const filteredProducts = useMemo(() => {
-        if (!products) return []
-
         let result = [...products]
 
         // Filter by Category
@@ -37,7 +46,6 @@ const ProductsPage: React.FC = () => {
                 (product) => product.category?.slug === selectedCategory
             )
         }
-
         // Filter by Price
         result = result.filter(
             (product) =>

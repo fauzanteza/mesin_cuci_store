@@ -2,7 +2,7 @@ export interface User {
     id: string;
     name: string;
     email: string;
-    role: 'ADMIN' | 'CUSTOMER';
+    role: 'admin' | 'customer';
     phone?: string;
     avatar?: string;
 }
@@ -10,7 +10,7 @@ export interface User {
 export interface AuthResponse {
     success: boolean;
     token: string;
-    data: User; // Backend returns user in 'data' field
+    user: User; // Backend returns user in 'data' field
 }
 
 export interface ApiError {

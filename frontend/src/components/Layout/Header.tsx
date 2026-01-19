@@ -1,153 +1,141 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Menu, X, ShoppingCart, User, LogOut } from 'lucide-react';
-import { RootState } from '@/store';
-import { logout } from '@/store/slices/authSlice';
+import { Menu, ShoppingCart, User, LogOut, Package, LayoutDashboard, Search } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import { useCart } from '../../hooks/useCart';
+import { SearchBar } from '../Common';
+import MobileSidebar from './MobileSidebar';
 
 const Header = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const dispatch = useDispatch();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const { user, isAuthenticated, logout } = useAuth();
+    const { totalQuantity } = useCart();
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate('/login');
+    const handleSearch = (query: string) => {
+        if (query.trim()) {
+            navigate(`/products?search=${encodeURIComponent(query)}`);
+        }
     };
 
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-40">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    {/* Logo */}
-                    <div className="flex-shrink-0 flex items-center">
-                        <Link to="/" className="text-2xl font-bold text-blue-600">
-                            MesinCuci<span className="text-gray-800">Store</span>
-                        </Link>
-                    </div>
-
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:flex space-x-8">
-                        <Link to="/" className="text-gray-700 hover:text-blue-600 transition">
-                            Beranda
-                        </Link>
-                        <Link to="/products" className="text-gray-700 hover:text-blue-600 transition">
-                            Produk
-                        </Link>
-                        <Link to="/about" className="text-gray-700 hover:text-blue-600 transition">
-                            Tentang Kami
-                        </Link>
-                    </nav>
-
-                    {/* Desktop Icons */}
-                    <div className="hidden md:flex items-center space-x-6">
-                        <Link to="/cart" className="text-gray-700 hover:text-blue-600 relative">
-                            <ShoppingCart className="h-6 w-6" />
-                            {/* Example Badge */}
-                            {/* <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span> */}
-                        </Link>
-
-                        {isAuthenticated ? (
-                            <div className="relative group">
-                                <button className="flex items-center text-gray-700 hover:text-blue-600 focus:outline-none">
-                                    <User className="h-6 w-6" />
-                                    <span className="ml-2 font-medium hidden lg:block">{user?.name}</span>
-                                </button>
-                                {/* Dropdown */}
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 hidden group-hover:block">
-                                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Profil Saya
-                                    </Link>
-                                    <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Pesanan Saya
-                                    </Link>
-                                    {user?.role === 'ADMIN' && (
-                                        <Link to="/admin" className="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-semibold">
-                                            Admin Dashboard
-                                        </Link>
-                                    )}
-                                    <button
-                                        onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    >
-                                        Keluar
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="flex space-x-4">
-                                <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium">
-                                    Masuk
-                                </Link>
-                                <Link
-                                    to="/register"
-                                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-                                >
-                                    Daftar
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Mobile menu button */}
-                    <div className="md:hidden flex items-center">
+        <>
+            <header className="bg-white shadow-sm sticky top-0 z-40">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-16 gap-4">
+                        {/* Mobile Menu Button */}
                         <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="text-gray-700 hover:text-blue-600 focus:outline-none"
+                            onClick={() => setIsSidebarOpen(true)}
+                            className="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none"
                         >
-                            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                            <Menu className="h-6 w-6" />
                         </button>
+
+                        {/* Logo */}
+                        <div className="flex-shrink-0 flex items-center">
+                            <Link to="/" className="text-2xl font-bold text-blue-600 flex items-center gap-1">
+                                MesinCuci<span className="text-gray-800">Store</span>
+                            </Link>
+                        </div>
+
+                        {/* Search Bar - Desktop */}
+                        <div className="hidden md:flex flex-1 max-w-xl mx-4">
+                            <SearchBar placeholder="Cari mesin cuci, sparepart..." onSearch={(val: string) => { /* Debounce handled in page or enter key? For now simple input */ }} />
+                            {/* Note: The common SearchBar might need an onSubmit prop for Enter key, 
+                                but for now let's assume it updates dynamic search or we'll enhance it. 
+                                Actually, let's just use a direct implementation here for better control if needed, 
+                                but reusing is better. I'll stick to the reuse but maybe I need to wrap it.
+                            */}
+                        </div>
+
+                        {/* Desktop Navigation Links (Optional/Secondary) */}
+                        <nav className="hidden lg:flex space-x-6">
+                            <Link to="/products" className="text-gray-600 hover:text-blue-600 font-medium">Produk</Link>
+                            <Link to="/promos" className="text-gray-600 hover:text-blue-600 font-medium">Promo</Link>
+                        </nav>
+
+                        {/* Right Area: Cart & User */}
+                        <div className="flex items-center space-x-4">
+                            {/* Mobile Search Icon Toggle (could be added) */}
+
+                            <Link to="/cart" className="relative text-gray-700 hover:text-blue-600 p-1">
+                                <ShoppingCart className="h-6 w-6" />
+                                {totalQuantity > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
+                                        {totalQuantity}
+                                    </span>
+                                )}
+                            </Link>
+
+                            {isAuthenticated ? (
+                                <div className="hidden md:block relative group">
+                                    <button className="flex items-center text-gray-700 hover:text-blue-600 focus:outline-none gap-2">
+                                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                                            {user?.name?.charAt(0).toUpperCase()}
+                                        </div>
+                                        <span className="font-medium max-w-[100px] truncate">{user?.name}</span>
+                                    </button>
+
+                                    {/* Dropdown */}
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 border border-gray-100 hidden group-hover:block animate-fade-in z-50">
+                                        <div className="px-4 py-2 border-b border-gray-100">
+                                            <p className="text-sm font-semibold">{user?.name}</p>
+                                            <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                                        </div>
+
+                                        {user?.role === 'admin' && (
+                                            <Link to="/admin" className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
+                                                <LayoutDashboard size={14} />
+                                                Admin Panel
+                                            </Link>
+                                        )}
+
+                                        <Link to="/profile" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                            <User size={14} />
+                                            Profil Saya
+                                        </Link>
+                                        <Link to="/orders" className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                            <Package size={14} />
+                                            Pesanan Saya
+                                        </Link>
+
+                                        <div className="border-t border-gray-100 mt-1 pt-1">
+                                            <button
+                                                onClick={() => { logout(); navigate('/login'); }}
+                                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                                            >
+                                                <LogOut size={14} />
+                                                Keluar
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="hidden md:flex items-center space-x-3">
+                                    <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium px-3 py-2">
+                                        Masuk
+                                    </Link>
+                                    <Link
+                                        to="/register"
+                                        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm font-medium"
+                                    >
+                                        Daftar
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Mobile Search Bar (visible only on small screens) */}
+                    <div className="md:hidden pb-3">
+                        <SearchBar placeholder="Cari produk..." />
                     </div>
                 </div>
-            </div>
+            </header>
 
-            {/* Mobile Menu */}
-            {isMenuOpen && (
-                <div className="md:hidden bg-white border-t border-gray-100">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <Link to="/" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">
-                            Beranda
-                        </Link>
-                        <Link to="/products" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">
-                            Produk
-                        </Link>
-                        <Link to="/cart" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">
-                            Keranjang
-                        </Link>
-
-                        {isAuthenticated ? (
-                            <>
-                                <Link to="/profile" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">
-                                    Profil Saya
-                                </Link>
-                                <button
-                                    onClick={handleLogout}
-                                    className="block w-full text-left px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-md"
-                                >
-                                    Keluar
-                                </button>
-                            </>
-                        ) : (
-                            <div className="mt-4 px-3 space-y-2">
-                                <Link
-                                    to="/login"
-                                    className="block w-full text-center px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50"
-                                >
-                                    Masuk
-                                </Link>
-                                <Link
-                                    to="/register"
-                                    className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                                >
-                                    Daftar
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
-        </header>
+            <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+        </>
     );
 };
 

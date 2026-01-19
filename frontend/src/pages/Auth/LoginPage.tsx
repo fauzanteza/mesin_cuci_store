@@ -33,8 +33,8 @@ const LoginPage = () => {
             const response = await authService.login(data)
             dispatch(
                 loginSuccess({
-                    user: response.data.user,
-                    token: response.data.token,
+                    user: response.user,
+                    token: response.token,
                 })
             )
             toast.success('Login berhasil! Selamat datang kembali.')
@@ -68,8 +68,8 @@ const LoginPage = () => {
                             type="email"
                             placeholder="nama@email.com"
                             className={`w-full px-4 py-2 rounded-lg border ${errors.email
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-300 focus:ring-primary-500'
                                 } focus:outline-none focus:ring-2 transition-all`}
                             {...register('email', {
                                 required: 'Email harus diisi',
@@ -101,8 +101,8 @@ const LoginPage = () => {
                             type="password"
                             placeholder="********"
                             className={`w-full px-4 py-2 rounded-lg border ${errors.password
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-300 focus:ring-primary-500'
                                 } focus:outline-none focus:ring-2 transition-all`}
                             {...register('password', {
                                 required: 'Password harus diisi',

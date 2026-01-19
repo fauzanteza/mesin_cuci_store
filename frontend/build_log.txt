@@ -1,0 +1,42 @@
+src/components/Cart/index.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Common/index.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Layout/Header.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/Layout/Header.tsx(3,70): error TS6133: 'Search' is declared but its value is never read.
+src/components/Layout/Header.tsx(15,11): error TS6133: 'handleSearch' is declared but its value is never read.
+src/components/Layout/Header.tsx(43,95): error TS6133: 'val' is declared but its value is never read.
+src/components/Layout/Layout.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Product/ProductCard.tsx(34,12): error TS6133: 'currentImageIndex' is declared but its value is never read.
+src/components/Product/ProductCard.tsx(34,31): error TS6133: 'setCurrentImageIndex' is declared but its value is never read.
+src/components/Shared/index.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/hooks/useProducts.ts(28,34): error TS2339: Property 'products' does not exist on type 'ProductListResponse'.
+src/hooks/useProducts.ts(30,36): error TS2339: Property 'pagination' does not exist on type 'ProductListResponse'.
+src/hooks/useProducts.ts(30,88): error TS2339: Property 'products' does not exist on type 'ProductListResponse'.
+src/hooks/useProducts.ts(31,31): error TS2339: Property 'pagination' does not exist on type 'ProductListResponse'.
+src/hooks/useProducts.ts(31,61): error TS2339: Property 'products' does not exist on type 'ProductListResponse'.
+src/pages/Admin/Customers.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/Dashboard.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/Orders.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/Products.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/Reports.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Auth/LoginPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Auth/LoginPage.tsx(6,1): error TS6133: 'Loader2' is declared but its value is never read.
+src/pages/Auth/LoginPage.tsx(36,36): error TS2339: Property 'user' does not exist on type 'AuthResponse'.
+src/pages/Auth/RegisterPage.tsx(5,1): error TS6133: 'Loader2' is declared but its value is never read.
+src/pages/CartPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/CheckoutPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(4,31): error TS6133: 'Share2' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(4,39): error TS6133: 'Star' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(4,74): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(25,11): error TS6133: 'relatedProducts' is declared but its value is never read.
+src/pages/ProductsPage.tsx(40,26): error TS2488: Type 'ProductListResponse' must have a '[Symbol.iterator]()' method that returns an iterator.
+src/pages/Static/AboutPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Static/ContactPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Static/FAQPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/User/OrderHistoryPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/User/ProfilePage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/User/WishlistPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/services/api.ts(6,29): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/services/productService.ts(62,32): error TS6133: 'productId' is declared but its value is never read.
+src/store/slices/cartSlice.ts(2,1): error TS6133: 'Product' is declared but its value is never read.
+src/utils/formatters.ts(1,1): error TS6133: 'React' is declared but its value is never read.
