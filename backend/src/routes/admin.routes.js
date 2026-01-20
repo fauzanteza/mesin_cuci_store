@@ -15,6 +15,23 @@ router.get('/dashboard/recent-orders', adminController.getRecentOrders);
 router.get('/dashboard/sales-report', adminController.getSalesReport);
 router.get('/dashboard/inventory-alerts', adminController.getInventoryAlerts);
 router.get('/dashboard/top-products', adminController.getTopProducts);
-router.get('/dashboard/customer-stats', adminController.getCustomerStats);
+// Product Management Routes
+// Product Management Routes
+import adminProductController from '../controllers/adminProductController.js';
+import { uploadProductImages, upload } from '../middleware/upload.js';
 
-export default router;
+// List & Detail
+router.get('/products', adminProductController.getProducts);
+router.get('/products/export', adminProductController.exportProducts); // Specific route before :id
+router.get('/products/:id', adminProductController.getProduct);
+
+// Create, Update, Delete
+router.post('/products', uploadProductImages, adminProductController.createProduct);
+router.put('/products/:id', uploadProductImages, adminProductController.updateProduct);
+router.delete('/products/:id', adminProductController.deleteProduct);
+
+// Specific Actions
+router.patch('/products/:id/status', adminProductController.updateProductStatus);
+router.patch('/products/:id/stock', adminProductController.updateProductStock);
+router.post('/products/bulk', adminProductController.bulkUpdateProducts);
+router.post('/products/import', upload.single('file'), adminProductController.importProducts);

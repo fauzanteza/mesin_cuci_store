@@ -8,4 +8,5 @@ export * from './FileUploader';
 export { default as Modal } from './Modal';
 export { default as Radio } from './Radio';
 export { default as Alert } from './Alert';
+export { default as Card } from './Card';
 // FeatureCard is already there but not in the user list, keep it if exists

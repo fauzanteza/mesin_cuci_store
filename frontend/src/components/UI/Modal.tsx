@@ -7,7 +7,7 @@ interface ModalProps {
     onClose: () => void;
     children: React.ReactNode;
     title?: string;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
+    size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     showCloseButton?: boolean;
 }
 
@@ -44,6 +44,7 @@ const Modal: React.FC<ModalProps> = ({
         md: 'max-w-md',
         lg: 'max-w-lg',
         xl: 'max-w-xl',
+        full: 'max-w-full m-4 h-[calc(100vh-2rem)]',
     };
 
     return createPortal(

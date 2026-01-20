@@ -34,3 +34,5 @@ export const PriceDisplay = ({ price, originalPrice, size = 'md', showDiscount =
         )}
     </div>
 );
+
+export { default as RichTextEditor } from './RichTextEditor';
