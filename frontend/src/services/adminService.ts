@@ -1,7 +1,7 @@
 import api from './api';
 
 const adminService = {
-    // Dashboard Stats
+    // Dashboard
     getDashboardStats: async () => {
         const response = await api.get('/admin/dashboard/stats');
         return response.data;
@@ -38,21 +38,13 @@ const adminService = {
         return response.data;
     },
 
-    createProduct: async (data: FormData) => {
-        const response = await api.post('/admin/products', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+    createProduct: async (data: any) => {
+        const response = await api.post('/admin/products', data);
         return response.data;
     },
 
-    updateProduct: async (id: string, data: FormData) => {
-        const response = await api.put(`/admin/products/${id}`, data, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+    updateProduct: async (id: string, data: any) => {
+        const response = await api.put(`/admin/products/${id}`, data);
         return response.data;
     },
 
@@ -63,11 +55,6 @@ const adminService = {
 
     updateProductStatus: async (id: string, status: string) => {
         const response = await api.patch(`/admin/products/${id}/status`, { status });
-        return response.data;
-    },
-
-    bulkUpdateProducts: async (data: any) => {
-        const response = await api.post('/admin/products/bulk', data);
         return response.data;
     },
 
@@ -99,6 +86,104 @@ const adminService = {
 
     bulkUpdateOrderStatus: async (orderIds: string[], status: string) => {
         const response = await api.patch('/admin/orders/bulk-status', { orderIds, status });
+        return response.data;
+    },
+
+    // User Management
+    getUsers: async (params: any) => {
+        const response = await api.get('/admin/users', { params });
+        return response.data;
+    },
+
+    getUser: async (id: string) => {
+        const response = await api.get(`/admin/users/${id}`);
+        return response.data;
+    },
+
+    createUser: async (data: any) => {
+        const response = await api.post('/admin/users', data);
+        return response.data;
+    },
+
+    updateUser: async (id: string, data: any) => {
+        const response = await api.put(`/admin/users/${id}`, data);
+        return response.data;
+    },
+
+    deleteUser: async (id: string) => {
+        const response = await api.delete(`/admin/users/${id}`);
+        return response.data;
+    },
+
+    updateUserStatus: async (id: string, status: string) => {
+        const response = await api.patch(`/admin/users/${id}/status`, { status });
+        return response.data;
+    },
+
+    // Category Management
+    getCategories: async (params: any) => {
+        const response = await api.get('/admin/categories', { params });
+        return response.data;
+    },
+
+    getCategoryTree: async (includeInactive = false) => {
+        const response = await api.get('/admin/categories/tree', { params: { includeInactive } });
+        return response.data;
+    },
+
+    getCategory: async (id: string) => {
+        const response = await api.get(`/admin/categories/${id}`);
+        return response.data;
+    },
+
+    createCategory: async (data: any) => {
+        const response = await api.post('/admin/categories', data);
+        return response.data;
+    },
+
+    updateCategory: async (id: string, data: any) => {
+        const response = await api.put(`/admin/categories/${id}`, data);
+        return response.data;
+    },
+
+    deleteCategory: async (id: string) => {
+        const response = await api.delete(`/admin/categories/${id}`);
+        return response.data;
+    },
+
+    updateCategoryStatus: async (id: string, isActive: boolean) => {
+        const response = await api.patch(`/admin/categories/${id}/status`, { isActive });
+        return response.data;
+    },
+
+    updateCategoryFeatured: async (id: string, isFeatured: boolean) => {
+        const response = await api.patch(`/admin/categories/${id}/featured`, { isFeatured });
+        return response.data;
+    },
+
+    reorderCategories: async (categories: { id: string, sortOrder: number }[]) => {
+        const response = await api.patch('/admin/categories/reorder', { categories });
+        return response.data;
+    },
+
+    bulkUpdateCategories: async (data: any) => {
+        const response = await api.post('/admin/categories/bulk-update', data);
+        return response.data;
+    },
+
+    getCategoryStats: async () => {
+        const response = await api.get('/admin/categories/stats');
+        return response.data;
+    },
+
+    uploadCategoryImage: async (id: string, file: File) => {
+        const formData = new FormData();
+        formData.append('image', file);
+        const response = await api.post(`/admin/categories/${id}/image`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         return response.data;
     }
 };

@@ -1,0 +1,71 @@
+﻿src/components/Admin/DataTable.tsx(257,30): error TS2741: Property 'options' is missing in type '{ children: Element[]; value: string; onChange: (e: ChangeEvent<HTMLSelectElement>) => void; className: string; }' but required in type 'SelectProps'.
+src/components/Admin/InventoryAlert.tsx(170,45): error TS2322: Type '"danger" | "warning"' is not assignable to type '"text" | "primary" | "secondary" | "outline" | "danger" | "success" | "ghost" | undefined'.
+  Type '"warning"' is not assignable to type '"text" | "primary" | "secondary" | "outline" | "danger" | "success" | "ghost" | undefined'.
+src/components/Admin/ReportChart.tsx(59,11): error TS6133: 'chartHeight' is declared but its value is never read.
+src/components/Admin/UserCard.tsx(46,52): error TS2322: Type '{ children: (string | Element)[]; variant: any; size: string; }' is not assignable to type 'IntrinsicAttributes & BadgeProps'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & BadgeProps'.
+src/components/Admin/UserCard.tsx(63,52): error TS2322: Type '{ children: (string | Element)[]; variant: any; size: string; }' is not assignable to type 'IntrinsicAttributes & BadgeProps'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & BadgeProps'.
+src/components/Checkout/OrderSummary.tsx(80,72): error TS2339: Property 'url' does not exist on type 'ProductImage'.
+src/components/Common/index.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Layout/Header.tsx(44,95): error TS6133: 'val' is declared but its value is never read.
+src/components/Layout/Layout.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/Shared/index.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/Customers.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/Dashboard.tsx(5,1): error TS6133: 'api' is declared but its value is never read.
+src/pages/Admin/Dashboard.tsx(32,17): error TS2322: Type 'any[]' is not assignable to type 'never[]'.
+  Type 'any' is not assignable to type 'never'.
+src/pages/Admin/DashboardPage.tsx(3,40): error TS6133: 'Alert' is declared but its value is never read.
+src/pages/Admin/DashboardPage.tsx(10,1): error TS6133: 'useAuth' is declared but its value is never read.
+src/pages/Admin/Products.tsx(3,48): error TS6133: 'Alert' is declared but its value is never read.
+src/pages/Admin/Products.tsx(8,11): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/Admin/Reports.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Admin/UserDetailPage.tsx(214,90): error TS2554: Expected 1 arguments, but got 2.
+src/pages/Admin/UserDetailPage.tsx(246,41): error TS2322: Type '{ tabs: ({ id: string; label: string; count?: undefined; } | { id: string; label: string; count: number; })[]; activeTab: string; onChange: Dispatch<SetStateAction<string>>; }' is not assignable to type 'IntrinsicAttributes & TabsProps'.
+  Property 'tabs' does not exist on type 'IntrinsicAttributes & TabsProps'.
+src/pages/Admin/UserDetailPage.tsx(271,97): error TS2322: Type '"primary" | "warning" | "gray"' is not assignable to type '"primary" | "secondary" | "danger" | "success" | "warning" | "info" | undefined'.
+  Type '"gray"' is not assignable to type '"primary" | "secondary" | "danger" | "success" | "warning" | "info" | undefined'.
+src/pages/Admin/UserDetailPage.tsx(293,908): error TS2554: Expected 1 arguments, but got 2.
+src/pages/Admin/UserDetailPage.tsx(320,33): error TS2322: Type '"outline" | "warning"' is not assignable to type '"text" | "primary" | "secondary" | "outline" | "danger" | "success" | "ghost" | undefined'.
+  Type '"warning"' is not assignable to type '"text" | "primary" | "secondary" | "outline" | "danger" | "success" | "ghost" | undefined'.
+src/pages/Admin/UserDetailPage.tsx(322,33): error TS2322: Type '"outline" | "warning"' is not assignable to type '"text" | "primary" | "secondary" | "outline" | "danger" | "success" | "ghost" | undefined'.
+  Type '"warning"' is not assignable to type '"text" | "primary" | "secondary" | "outline" | "danger" | "success" | "ghost" | undefined'.
+src/pages/Admin/UsersPage.tsx(16,1): error TS6133: 'adminService' is declared but its value is never read.
+src/pages/Admin/UsersPage.tsx(335,21): error TS2322: Type '{ tabs: { id: string; label: string; count: number; }[]; activeTab: string; onChange: Dispatch<SetStateAction<string>>; }' is not assignable to type 'IntrinsicAttributes & TabsProps'.
+  Property 'tabs' does not exist on type 'IntrinsicAttributes & TabsProps'.
+src/pages/Auth/LoginPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Auth/LoginPage.tsx(6,1): error TS6133: 'Loader2' is declared but its value is never read.
+src/pages/Auth/RegisterPage.tsx(5,1): error TS6133: 'Loader2' is declared but its value is never read.
+src/pages/CheckoutPage.tsx(8,18): error TS6133: 'Alert' is declared but its value is never read.
+src/pages/CheckoutPage.tsx(8,25): error TS6133: 'LoadingSpinner' is declared but its value is never read.
+src/pages/CheckoutPage.tsx(9,1): error TS6133: 'orderService' is declared but its value is never read.
+src/pages/CheckoutPage.tsx(64,34): error TS2339: Property 'phone' does not exist on type 'User'.
+src/pages/CheckoutPage.tsx(224,54): error TS2339: Property 'url' does not exist on type 'ProductImage'.
+src/pages/CheckoutPage.tsx(459,29): error TS2322: Type '{ items: CartItem[]; subtotal: number; shippingCost: any; paymentMethod: any; onEditCart: () => void; className: string; }' is not assignable to type 'IntrinsicAttributes & OrderSummaryProps'.
+  Property 'items' does not exist on type 'IntrinsicAttributes & OrderSummaryProps'.
+src/pages/ProductDetailPage.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(4,31): error TS6133: 'Share2' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(4,39): error TS6133: 'Star' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(4,74): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/ProductDetailPage.tsx(25,11): error TS6133: 'relatedProducts' is declared but its value is never read.
+src/pages/Static/AboutPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Static/ContactPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/Static/FAQPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/User/DashboardPage.tsx(6,1): error TS6133: 'orderService' is declared but its value is never read.
+src/pages/User/DashboardPage.tsx(247,71): error TS2339: Property 'phone' does not exist on type 'User'.
+src/pages/User/OrderDetailPage.tsx(4,34): error TS6133: 'Alert' is declared but its value is never read.
+src/pages/User/OrderDetailPage.tsx(6,1): error TS6133: 'orderService' is declared but its value is never read.
+src/pages/User/OrderDetailPage.tsx(12,11): error TS6133: 'user' is declared but its value is never read.
+src/pages/User/OrderHistoryPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/User/OrdersPage.tsx(5,1): error TS6133: 'orderService' is declared but its value is never read.
+src/pages/User/OrdersPage.tsx(169,56): error TS2322: Type '"yellow" | "blue" | "purple" | "green" | "red" | "gray"' is not assignable to type '"primary" | "secondary" | "danger" | "success" | "warning" | "info" | undefined'.
+  Type '"yellow"' is not assignable to type '"primary" | "secondary" | "danger" | "success" | "warning" | "info" | undefined'.
+src/pages/User/ProfilePage.tsx(4,1): error TS6133: 'useDispatch' is declared but its value is never read.
+src/pages/User/ProfilePage.tsx(6,41): error TS6133: 'Alert' is declared but its value is never read.
+src/pages/User/ProfilePage.tsx(8,1): error TS6133: 'updateUser' is declared but its value is never read.
+src/pages/User/ProfilePage.tsx(117,39): error TS6133: 'file' is declared but its value is never read.
+src/pages/User/ProfilePage.tsx(336,41): error TS2322: Type '(file: File) => Promise<void>' is not assignable to type '(files: File | File[]) => void | Promise<void>'.
+  Types of parameters 'file' and 'files' are incompatible.
+    Type 'File | File[]' is not assignable to type 'File'.
+      Type 'File[]' is missing the following properties from type 'File': lastModified, name, webkitRelativePath, size, and 5 more.
+src/services/api.ts(6,29): error TS2339: Property 'env' does not exist on type 'ImportMeta'.

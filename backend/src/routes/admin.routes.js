@@ -15,7 +15,7 @@ router.get('/dashboard/recent-orders', adminController.getRecentOrders);
 router.get('/dashboard/sales-report', adminController.getSalesReport);
 router.get('/dashboard/inventory-alerts', adminController.getInventoryAlerts);
 router.get('/dashboard/top-products', adminController.getTopProducts);
-// Product Management Routes
+
 // Product Management Routes
 import adminProductController from '../controllers/adminProductController.js';
 import { uploadProductImages, upload } from '../middleware/upload.js';
@@ -52,3 +52,32 @@ router.patch('/orders/:id/status', adminOrderController.updateOrderStatus);
 router.patch('/orders/:id/payment', adminOrderController.updatePaymentStatus);
 router.patch('/orders/:id/notes', adminOrderController.updateOrderNotes);
 router.patch('/orders/bulk-status', adminOrderController.bulkUpdateOrderStatus);
+
+// Category Management Routes
+import adminCategoryController from '../controllers/adminCategoryController.js';
+
+router.get('/categories', adminCategoryController.getCategories);
+router.get('/categories/tree', adminCategoryController.getCategoryTree);
+router.get('/categories/stats', adminCategoryController.getCategoryStats);
+router.get('/categories/:id', adminCategoryController.getCategory);
+router.post('/categories', adminCategoryController.createCategory);
+router.put('/categories/:id', adminCategoryController.updateCategory);
+router.delete('/categories/:id', adminCategoryController.deleteCategory);
+router.patch('/categories/:id/status', adminCategoryController.updateCategoryStatus);
+router.patch('/categories/:id/featured', adminCategoryController.updateCategoryFeatured);
+router.patch('/categories/reorder', adminCategoryController.reorderCategories); // Specific route
+router.post('/categories/bulk-update', adminCategoryController.bulkUpdateCategories); // Adjusted path
+router.post('/categories/:id/image', upload.single('image'), adminCategoryController.uploadCategoryImage);
+
+
+// User Management Routes
+import adminUserController from '../controllers/adminUserController.js';
+
+router.get('/users', adminUserController.getUsers);
+router.get('/users/:id', adminUserController.getUser);
+router.post('/users', adminUserController.createUser);
+router.put('/users/:id', adminUserController.updateUser);
+router.delete('/users/:id', adminUserController.deleteUser);
+router.patch('/users/:id/status', adminUserController.updateUserStatus);
+
+export default router;
