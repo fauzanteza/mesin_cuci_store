@@ -22,6 +22,7 @@ import paymentRoutes from './routes/payment.routes.js';
 import reviewRoutes from './routes/review.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
+import addressRoutes from './routes/address.routes.js';
 
 // Import middleware
 import errorHandler from './middleware/errorHandler.js';
@@ -111,6 +112,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/addresses', addressRoutes);
 
 // 404 Handler
 app.use(notFound);

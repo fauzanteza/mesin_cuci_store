@@ -11,10 +11,22 @@ interface TabsProps {
     items: TabItem[];
     defaultActiveId?: string;
     className?: string;
+    activeTab?: string;
+    onTabChange?: (id: string) => void;
 }
 
-const Tabs: React.FC<TabsProps> = ({ items, defaultActiveId, className = '' }) => {
-    const [activeTab, setActiveTab] = useState(defaultActiveId || items[0]?.id);
+const Tabs: React.FC<TabsProps> = ({ items, defaultActiveId, className = '', activeTab: controlledActiveTab, onTabChange }) => {
+    const [internalActiveTab, setInternalActiveTab] = useState(defaultActiveId || items[0]?.id);
+
+    const activeTab = controlledActiveTab !== undefined ? controlledActiveTab : internalActiveTab;
+
+    const handleTabClick = (id: string) => {
+        if (onTabChange) {
+            onTabChange(id);
+        } else {
+            setInternalActiveTab(id);
+        }
+    };
 
     return (
         <div className={className}>
@@ -23,7 +35,7 @@ const Tabs: React.FC<TabsProps> = ({ items, defaultActiveId, className = '' }) =
                     {items.map((tab) => (
                         <button
                             key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
+                            onClick={() => handleTabClick(tab.id)}
                             className={`
                                 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 transition-colors
                                 ${activeTab === tab.id
