@@ -31,7 +31,7 @@ const WishlistPage = lazy(() => import('./pages/User/WishlistPage'))
 const OrderHistoryPage = lazy(() => import('./pages/User/OrderHistoryPage')) // Keeping for backward compatibility if needed, or remove if unused
 
 // Admin Pages
-const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard'))
+const AdminDashboard = lazy(() => import('./pages/Admin/DashboardPage'))
 const AdminProducts = lazy(() => import('./pages/Admin/Products'))
 const AdminOrders = lazy(() => import('./pages/Admin/Orders'))
 const AdminCustomers = lazy(() => import('./pages/Admin/Customers'))
