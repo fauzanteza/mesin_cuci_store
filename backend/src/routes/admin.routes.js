@@ -35,3 +35,20 @@ router.patch('/products/:id/status', adminProductController.updateProductStatus)
 router.patch('/products/:id/stock', adminProductController.updateProductStock);
 router.post('/products/bulk', adminProductController.bulkUpdateProducts);
 router.post('/products/import', upload.single('file'), adminProductController.importProducts);
+
+// Order Management Routes
+import adminOrderController from '../controllers/adminOrderController.js';
+
+router.get('/orders', adminOrderController.getOrders);
+router.get('/orders/export', adminOrderController.exportOrders);
+router.get('/orders/stats', adminOrderController.getOrderStats);
+router.get('/orders/:id', adminOrderController.getOrder);
+router.post('/orders', adminOrderController.createOrder); // Admin create order
+router.put('/orders/:id', adminOrderController.updateOrder);
+router.delete('/orders/:id', adminOrderController.deleteOrder);
+
+// Order Specific Actions
+router.patch('/orders/:id/status', adminOrderController.updateOrderStatus);
+router.patch('/orders/:id/payment', adminOrderController.updatePaymentStatus);
+router.patch('/orders/:id/notes', adminOrderController.updateOrderNotes);
+router.patch('/orders/bulk-status', adminOrderController.bulkUpdateOrderStatus);

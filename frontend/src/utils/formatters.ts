@@ -8,3 +8,13 @@ export const formatCurrency = (amount: number): string => {
         maximumFractionDigits: 0,
     }).format(amount)
 }
+
+export const formatDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
