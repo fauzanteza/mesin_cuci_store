@@ -1,15 +1,12 @@
-const { Op } = require('sequelize');
-const Order = require('../models/Order');
-const OrderItem = require('../models/OrderItem');
-const User = require('../models/User');
-const Product = require('../models/Product');
-const Address = require('../models/Address');
-const Payment = require('../models/Payment');
-const OrderStatusHistory = require('../models/OrderStatusHistory');
-const InventoryService = require('./inventory.service');
-const NotificationService = require('./notification.service');
-const PaymentService = require('./payment.service');
-const AppError = require('../utils/appError');
+import { Op } from 'sequelize';
+import sequelize from '../config/database.js';
+import models from '../models/index.js';
+import InventoryService from './inventory.service.js';
+import NotificationService from './notification.service.js';
+import PaymentService from './payment.service.js';
+import AppError from '../utils/appError.js';
+
+const { Order, OrderItem, User, Product, Address, Payment, OrderStatusHistory } = models;
 
 class OrderService {
     /**
@@ -824,4 +821,4 @@ class OrderService {
     }
 }
 
-module.exports = OrderService;
+export default OrderService;

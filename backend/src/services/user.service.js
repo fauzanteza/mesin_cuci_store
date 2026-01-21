@@ -1,12 +1,10 @@
-const User = require('../models/User');
-const Address = require('../models/Address');
-const Order = require('../models/Order');
-const WishlistItem = require('../models/WishlistItem');
-const Review = require('../models/Review');
-const Notification = require('../models/Notification');
-const AppError = require('../utils/appError');
-const cloudinary = require('../config/cloudinary');
-const NotificationService = require('./notification.service');
+import models from '../models/index.js';
+import AppError from '../utils/appError.js';
+import cloudinary from '../config/cloudinary.js';
+import NotificationService from './notification.service.js';
+import bcrypt from 'bcryptjs';
+
+const { User, Address, Order, WishlistItem, Review, Notification, AuditLog, OrderItem, Product } = models;
 
 class UserService {
     /**
@@ -63,7 +61,6 @@ class UserService {
             await user.update(updateData);
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'UPDATE_PROFILE',
@@ -116,7 +113,6 @@ class UserService {
             await user.save();
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'UPDATE_AVATAR',
@@ -163,7 +159,6 @@ class UserService {
             });
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'ADD_ADDRESS',
@@ -201,7 +196,6 @@ class UserService {
             await address.update(updateData);
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'UPDATE_ADDRESS',
@@ -244,7 +238,6 @@ class UserService {
             await address.destroy();
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'DELETE_ADDRESS',
@@ -275,10 +268,10 @@ class UserService {
                 where,
                 include: [
                     {
-                        model: require('../models/OrderItem'),
+                        model: OrderItem,
                         as: 'items',
                         include: [{
-                            model: require('../models/Product'),
+                            model: Product,
                             attributes: ['id', 'name', 'image']
                         }]
                     }
@@ -311,19 +304,19 @@ class UserService {
                 where: { id: orderId, userId },
                 include: [
                     {
-                        model: require('../models/OrderItem'),
+                        model: OrderItem,
                         as: 'items',
                         include: [{
-                            model: require('../models/Product'),
+                            model: Product,
                             attributes: ['id', 'name', 'image', 'price']
                         }]
                     },
                     {
-                        model: require('../models/Address'),
+                        model: Address,
                         as: 'shippingAddress'
                     },
                     {
-                        model: require('../models/Payment'),
+                        model: models.Payment,
                         as: 'payment'
                     }
                 ]
@@ -350,10 +343,10 @@ class UserService {
             const wishlist = await WishlistItem.findAndCountAll({
                 where: { userId },
                 include: [{
-                    model: require('../models/Product'),
+                    model: Product,
                     as: 'product',
                     include: [{
-                        model: require('../models/Brand'),
+                        model: models.Brand,
                         attributes: ['id', 'name']
                     }]
                 }],
@@ -381,7 +374,6 @@ class UserService {
      */
     static async addToWishlist(userId, productId) {
         try {
-            const Product = require('../models/Product');
             const product = await Product.findByPk(productId);
 
             if (!product) {
@@ -403,7 +395,6 @@ class UserService {
             });
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'ADD_TO_WISHLIST',
@@ -433,7 +424,6 @@ class UserService {
             await wishlistItem.destroy();
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'REMOVE_FROM_WISHLIST',
@@ -458,7 +448,7 @@ class UserService {
             const reviews = await Review.findAndCountAll({
                 where: { userId },
                 include: [{
-                    model: require('../models/Product'),
+                    model: Product,
                     attributes: ['id', 'name', 'image']
                 }],
                 order: [['createdAt', 'DESC']],
@@ -593,7 +583,6 @@ class UserService {
             }
 
             // Verify password
-            const bcrypt = require('bcryptjs');
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 throw new AppError('Password salah', 401);
@@ -605,7 +594,6 @@ class UserService {
             await user.save();
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'DELETE_ACCOUNT',
@@ -641,7 +629,6 @@ class UserService {
                 };
             }
 
-            const AuditLog = require('../models/AuditLog');
             const activities = await AuditLog.findAndCountAll({
                 where,
                 order: [['createdAt', 'DESC']],
@@ -664,4 +651,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+export default UserService;

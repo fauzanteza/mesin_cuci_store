@@ -10,12 +10,12 @@ import {
     getOrderStats,
     updateOrderTracking
 } from '../controllers/orderController.js';
-import { authenticate, authorize } from '../middleware/auth.js';
+import { protect, restrictTo } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // User routes
-router.use(authenticate);
+router.use(protect);
 
 router.post('/', createOrder);
 router.get('/user', getUserOrders);
@@ -23,7 +23,7 @@ router.get('/:id', getOrderById);
 router.put('/:id/cancel', cancelOrder);
 
 // Admin routes
-router.use(authorize('admin'));
+router.use(restrictTo('admin'));
 
 router.get('/admin/all', getAdminOrders);
 router.get('/admin/stats', getOrderStats);

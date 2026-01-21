@@ -1,4 +1,6 @@
-const { Address } = require('../models');
+import models from '../models/index.js';
+
+const { Address } = models;
 
 class AddressService {
     async getUserAddresses(userId) {
@@ -79,4 +81,4 @@ class AddressService {
     }
 }
 
-module.exports = new AddressService();
+export default new AddressService();

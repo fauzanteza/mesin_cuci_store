@@ -1,6 +1,6 @@
 // backend/src/controllers/orderController.js
 import orderService from '../services/order.service.js';
-import { AppError } from '../utils/appError.js';
+import AppError from '../utils/appError.js';
 import asyncHandler from '../utils/asyncHandler.js';
 
 export const createOrder = asyncHandler(async (req, res) => {

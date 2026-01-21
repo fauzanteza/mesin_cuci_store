@@ -1,4 +1,6 @@
-const { WishlistItem, Product, ProductImage } = require('../models');
+import models from '../models/index.js';
+
+const { WishlistItem, Product, ProductImage } = models;
 
 class WishlistService {
     async getUserWishlist(userId) {
@@ -65,4 +67,4 @@ class WishlistService {
     }
 }
 
-module.exports = new WishlistService();
+export default new WishlistService();

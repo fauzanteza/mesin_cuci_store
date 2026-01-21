@@ -1,11 +1,8 @@
-const { Op } = require('sequelize');
-const sequelize = require('../config/database');
-const Order = require('../models/Order');
-const OrderItem = require('../models/OrderItem');
-const User = require('../models/User');
-const Product = require('../models/Product');
-const ProductView = require('../models/ProductView');
-const AbandonedCart = require('../models/AbandonedCart');
+import { Op } from 'sequelize';
+import sequelize from '../config/database.js';
+import models from '../models/index.js';
+
+const { Order, OrderItem, User, Product, ProductView, AbandonedCart } = models;
 
 class AnalyticsService {
     /**
@@ -253,4 +250,4 @@ class AnalyticsService {
     }
 }
 
-module.exports = AnalyticsService;
+export default AnalyticsService;

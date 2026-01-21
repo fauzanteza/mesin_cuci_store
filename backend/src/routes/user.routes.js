@@ -1,12 +1,12 @@
 // backend/src/routes/user.routes.js
 import express from 'express';
-import { authenticate } from '../middleware/auth.js';
+import { protect } from '../middleware/auth.js';
 import * as userController from '../controllers/userController.js';
 
 const router = express.Router();
 
 // Protect all routes
-router.use(authenticate);
+router.use(protect);
 
 // Profile
 router.get('/profile', userController.getProfile);

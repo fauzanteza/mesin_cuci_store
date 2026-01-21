@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import ChatRoom from '../models/ChatRoom.js';
 import ChatMessage from '../models/ChatMessage.js';
 import User from '../models/User.js';
-import AppError from '../utils/AppError.js';
+import AppError from '../utils/appError.js';
 import sequelize from '../config/database.js';
 
 class ChatService {

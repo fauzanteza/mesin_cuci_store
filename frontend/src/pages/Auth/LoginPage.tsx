@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
-import { Loader2 } from 'lucide-react'
-
+import { Loader2 } from 'lucide-react' // Keeping for loading state if needed, though user design uses standard buttons
+// Importing FontAwesome via CDN in index.html is preferred if not installed
 import { loginStart, loginSuccess, loginFailure } from '../../store/slices/authSlice'
 import authService from '../../services/authService'
 import { RootState } from '../../store'
-import Button from '../../components/UI/Button'
+import './Auth.css' // Import the custom CSS
 
-// Export interface for use in authService
 export interface LoginInputs {
     email: string
     password: string
@@ -20,12 +19,17 @@ const LoginPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { isLoading } = useSelector((state: RootState) => state.auth)
+    const [showPassword, setShowPassword] = useState(false)
 
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<LoginInputs>()
+
+    const togglePassword = () => {
+        setShowPassword(!showPassword)
+    }
 
     const onSubmit = async (data: LoginInputs) => {
         dispatch(loginStart())
@@ -48,98 +52,200 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="container mx-auto py-12 px-4 flex justify-center items-center min-h-[60vh]">
-            <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-                <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900">Selamat Datang</h1>
-                    <p className="text-gray-500 mt-2">Silakan masuk ke akun Anda</p>
+        <div className="auth-body">
+            {/* Header */}
+            <header className="auth-header">
+                <Link to="/" className="auth-logo">
+                    <div className="auth-logo-icon">
+                        <i className="fas fa-soap"></i> {/* Changed to soap as washing-machine might not be free */}
+                    </div>
+                    <div className="auth-logo-text">MesinCuci Store</div>
+                </Link>
+
+                <div className="auth-search-bar">
+                    <i className="fas fa-search auth-search-icon"></i>
+                    <input type="text" placeholder="Cari mesin cuci, sparepart..." />
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="nama@email.com"
-                            className={`w-full px-4 py-2 rounded-lg border ${errors.email
-                                ? 'border-red-500 focus:ring-red-500'
-                                : 'border-gray-300 focus:ring-primary-500'
-                                } focus:outline-none focus:ring-2 transition-all`}
-                            {...register('email', {
-                                required: 'Email harus diisi',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Format email tidak valid',
-                                },
-                            })}
-                        />
-                        {errors.email && (
-                            <p className="mt-1 text-sm text-red-500">
-                                {errors.email.message}
-                            </p>
-                        )}
-                    </div>
-
-                    <div>
-                        <div className="flex justify-between items-center mb-1">
-                            <label
-                                htmlFor="password"
-                                className="block text-sm font-medium text-gray-700"
-                            >
-                                Password
-                            </label>
-                            {/* Forgot password link could go here */}
-                        </div>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="********"
-                            className={`w-full px-4 py-2 rounded-lg border ${errors.password
-                                ? 'border-red-500 focus:ring-red-500'
-                                : 'border-gray-300 focus:ring-primary-500'
-                                } focus:outline-none focus:ring-2 transition-all`}
-                            {...register('password', {
-                                required: 'Password harus diisi',
-                                minLength: {
-                                    value: 6,
-                                    message: 'Password minimal 6 karakter',
-                                },
-                            })}
-                        />
-                        {errors.password && (
-                            <p className="mt-1 text-sm text-red-500">
-                                {errors.password.message}
-                            </p>
-                        )}
-                    </div>
-
-                    <Button
-                        type="submit"
-                        className="w-full"
-                        size="lg"
-                        isLoading={isLoading}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Memproses...' : 'Masuk'}
-                    </Button>
-                </form>
-
-                <div className="mt-6 text-center text-sm text-gray-600">
-                    Belum punya akun?{' '}
-                    <Link
-                        to="/register"
-                        className="text-primary-600 hover:text-primary-700 font-semibold hover:underline"
-                    >
-                        Daftar sekarang
+                <div>
+                    <Link to="/cart" className="cart-btn" style={{ color: 'var(--dark)', marginRight: '1rem' }}>
+                        <i className="fas fa-shopping-cart"></i>
                     </Link>
                 </div>
+            </header>
+
+            {/* Main Content */}
+            <div className="auth-container">
+                {/* Welcome Section */}
+                <div className="welcome-section">
+                    <h1 className="welcome-title">Selamat Datang di MesinCuci Store</h1>
+                    <p className="welcome-subtitle">
+                        Temukan mesin cuci berkualitas terbaik untuk kebutuhan rumah tangga dan laundry Anda.
+                        Nikmati pengalaman belanja yang mudah, aman, dan terpercaya.
+                    </p>
+
+                    <div className="features">
+                        <div className="feature">
+                            <div className="feature-icon">
+                                <i className="fas fa-shipping-fast"></i>
+                            </div>
+                            <div>
+                                <h4>Gratis Ongkir</h4>
+                                <p>Gratis pengiriman untuk order di atas Rp 2.000.000</p>
+                            </div>
+                        </div>
+
+                        <div className="feature">
+                            <div className="feature-icon">
+                                <i className="fas fa-shield-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Garansi Resmi</h4>
+                                <p>Semua produk dilengkapi garansi resmi 1-2 tahun</p>
+                            </div>
+                        </div>
+
+                        <div className="feature">
+                            <div className="feature-icon">
+                                <i className="fas fa-headset"></i>
+                            </div>
+                            <div>
+                                <h4>Bantuan 24/7</h4>
+                                <p>Customer service siap membantu kapan saja</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Login Form */}
+                <div className="login-form">
+                    <h2 className="form-title">Masuk ke Akun Anda</h2>
+                    <p className="form-subtitle">Silakan masukkan email dan password Anda</p>
+
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="form-group">
+                            <label className="form-label" htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                className="form-control"
+                                placeholder="contoh@email.com"
+                                {...register('email', { required: 'Email is required' })}
+                            />
+                            {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label" htmlFor="password">Password</label>
+                            <div className="password-input">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    className="form-control"
+                                    placeholder="Masukkan password"
+                                    {...register('password', { required: 'Password is required' })}
+                                />
+                                <button type="button" className="password-toggle" onClick={togglePassword}>
+                                    <i className={`far ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                            </div>
+                            {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
+                        </div>
+
+                        <div className="form-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                <input type="checkbox" id="remember" />
+                                <label htmlFor="remember" style={{ color: 'var(--secondary)', marginLeft: '0.5rem' }}>Ingat saya</label>
+                            </div>
+                            <Link to="/forgot-password" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Lupa password?</Link>
+                        </div>
+
+                        <button type="submit" className="btn-primary" disabled={isLoading}>
+                            {isLoading ? <Loader2 className="animate-spin" /> : <i className="fas fa-sign-in-alt"></i>}
+                            {isLoading ? 'Loading...' : 'Masuk'}
+                        </button>
+
+                        <div className="divider">atau lanjutkan dengan</div>
+
+                        <div className="social-login">
+                            <button type="button" className="social-btn">
+                                <i className="fab fa-google" style={{ color: '#DB4437' }}></i>
+                            </button>
+                            <button type="button" className="social-btn">
+                                <i className="fab fa-facebook-f" style={{ color: '#4267B2' }}></i>
+                            </button>
+                            <button type="button" className="social-btn">
+                                <i className="fab fa-apple" style={{ color: '#000' }}></i>
+                            </button>
+                        </div>
+
+                        <div className="register-link">
+                            Belum punya akun? <Link to="/register">Daftar sekarang</Link>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+            {/* Footer */}
+            <footer className="auth-footer">
+                <div className="footer-grid">
+                    <div className="footer-section">
+                        <h3>MesinCuci Store</h3>
+                        <p style={{ color: '#cbd5e1', lineHeight: '1.6' }}>
+                            Menyediakan mesin cuci berkualitas terbaik dengan harga terjangkau
+                            untuk kebutuhan rumah tangga dan laundry Anda.
+                        </p>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                            <a href="#" style={{ color: 'white' }}><i className="fab fa-facebook fa-lg"></i></a>
+                            <a href="#" style={{ color: 'white' }}><i className="fab fa-instagram fa-lg"></i></a>
+                            <a href="#" style={{ color: 'white' }}><i className="fab fa-twitter fa-lg"></i></a>
+                            <a href="#" style={{ color: 'white' }}><i className="fab fa-youtube fa-lg"></i></a>
+                        </div>
+                    </div>
+
+                    <div className="footer-section">
+                        <h3>Tautan Cepat</h3>
+                        <ul className="footer-links">
+                            <li><Link to="/products">Produk</Link></li>
+                            <li><Link to="/about">Tentang Kami</Link></li>
+                            <li><Link to="/contact">Hubungi Kami</Link></li>
+                            <li><Link to="/faq">FAQ</Link></li>
+                        </ul>
+                    </div>
+
+                    <div className="footer-section">
+                        <h3>Layanan Pelanggan</h3>
+                        <ul className="footer-links">
+                            <li><Link to="/track-order">Lacak Pesanan</Link></li>
+                            <li><Link to="/privacy-policy">Kebijakan Privasi</Link></li>
+                            <li><Link to="/terms">Syarat & Ketentuan</Link></li>
+                            <li><Link to="/warranty">Garansi</Link></li>
+                        </ul>
+                    </div>
+
+                    <div className="footer-section">
+                        <h3>Hubungi Kami</h3>
+                        <div className="contact-info">
+                            <div className="contact-item">
+                                <i className="fas fa-map-marker-alt"></i>
+                                <span>JL. Teknologi No. 123, Jakarta Selatan, 12190</span>
+                            </div>
+                            <div className="contact-item">
+                                <i className="fas fa-phone"></i>
+                                <span>+62 812 3456 7890</span>
+                            </div>
+                            <div className="contact-item">
+                                <i className="fas fa-envelope"></i>
+                                <span>support@mesincuci.store</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="footer-bottom">
+                    <p>&copy; 2024 MesinCuci Store. Hak Cipta Dilindungi.</p>
+                </div>
+            </footer>
         </div>
     )
 }

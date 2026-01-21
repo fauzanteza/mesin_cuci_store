@@ -1,14 +1,12 @@
-const { Op } = require('sequelize');
-const Product = require('../models/Product');
-const Category = require('../models/Category');
-const Brand = require('../models/Brand');
-const ProductImage = require('../models/ProductImage');
-const ProductVariant = require('../models/ProductVariant');
-const Review = require('../models/Review');
-const WishlistItem = require('../models/WishlistItem');
-const InventoryService = require('./inventory.service');
-const cloudinary = require('../config/cloudinary');
-const AppError = require('../utils/appError');
+import { Op } from 'sequelize';
+import sequelize from '../config/database.js';
+import models from '../models/index.js';
+import InventoryService from './inventory.service.js';
+import cloudinary from '../config/cloudinary.js';
+import AppError from '../utils/appError.js';
+import NotificationService from './notification.service.js';
+
+const { Product, Category, Brand, ProductImage, ProductVariant, Review, WishlistItem, Order, OrderItem, User, AuditLog } = models;
 
 class ProductService {
     /**
@@ -729,4 +727,4 @@ class ProductService {
     }
 }
 
-module.exports = ProductService;
+export default ProductService;

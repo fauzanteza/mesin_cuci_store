@@ -1,4 +1,4 @@
-const addressService = require('../services/address.service');
+import addressService from '../services/address.service.js';
 
 class AddressController {
     async getUserAddresses(req, res, next) {
@@ -69,4 +69,4 @@ class AddressController {
     }
 }
 
-module.exports = new AddressController();
+export default new AddressController();

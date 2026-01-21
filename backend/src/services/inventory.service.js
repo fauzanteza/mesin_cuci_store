@@ -1,10 +1,11 @@
-const { Op } = require('sequelize');
-const InventoryTransaction = require('../models/InventoryTransaction');
-const Product = require('../models/Product');
-const ProductVariant = require('../models/ProductVariant');
-const NotificationService = require('./notification.service');
-const AppError = require('../utils/appError');
-const sequelize = require('../config/database');
+import { Op } from 'sequelize';
+import InventoryTransaction from '../models/InventoryTransaction.js';
+import Product from '../models/Product.js';
+import ProductVariant from '../models/ProductVariant.js';
+import NotificationService from './notification.service.js';
+import AppError from '../utils/appError.js';
+import sequelize from '../config/database.js';
+import User from '../models/User.js';
 
 class InventoryService {
     /**
@@ -160,7 +161,7 @@ class InventoryService {
                         attributes: ['id', 'name', 'sku']
                     },
                     {
-                        model: require('../models/User'),
+                        model: User,
                         as: 'creator',
                         attributes: ['id', 'name']
                     }
@@ -277,4 +278,4 @@ class InventoryService {
     }
 }
 
-module.exports = InventoryService;
+export default InventoryService;

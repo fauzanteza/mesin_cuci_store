@@ -2,9 +2,9 @@ import PaymentService from '../services/payment.service.js';
 import Payment from '../models/Payment.js';
 import Order from '../models/Order.js';
 import AppError from '../utils/appError.js';
-import { catchAsync } from '../utils/catchAsync.js';
+import asyncHandler from '../utils/asyncHandler.js';
 
-export const createPayment = catchAsync(async (req, res, next) => {
+export const createPayment = asyncHandler(async (req, res, next) => {
     const { orderId, paymentMethod, customerDetails } = req.body;
 
     // Validate order ownership
@@ -26,7 +26,7 @@ export const createPayment = catchAsync(async (req, res, next) => {
     });
 });
 
-export const uploadManualPayment = catchAsync(async (req, res, next) => {
+export const uploadManualPayment = asyncHandler(async (req, res, next) => {
     // req.file should be populated by upload middleware
     if (!req.file) {
         return next(new AppError('Please upload a payment proof', 400));
@@ -34,9 +34,7 @@ export const uploadManualPayment = catchAsync(async (req, res, next) => {
 
     const { orderId, bank } = req.body;
 
-    // Find order (using ID or OrderNumber? Frontend sends OrderId as ID usually, but `createPayment` used orderNumber. Let's support both or check frontend)
-    // Frontend `ManualPaymentUpload` sends `orderId` which is `orderData.id` (e.g. ORD-TIMESTAMP).
-    // Let's assume ID is passed.
+    // ... existing logic ...
     const order = await Order.findOne({
         where: { id: orderId, user_id: req.user.id }
     });
@@ -51,19 +49,16 @@ export const uploadManualPayment = catchAsync(async (req, res, next) => {
 
     // Create Payment record for manual transfer
     const payment = await Payment.create({
-        order_id: orderId, // ensure foreign key matches
+        order_id: orderId,
         user_id: req.user.id,
         payment_method: 'bank_transfer',
-        payment_type: 'manual', // customized field
-        amount: order ? order.totalAmount : 0, // Fallback need order
-        status: 'pending', // Waiting verification
-        proof_image: req.file.path, // Match model field name
+        payment_type: 'manual',
+        amount: order ? order.totalAmount : 0,
+        status: 'pending',
+        proof_image: req.file.path,
         bank_destination: bank,
         response: JSON.stringify({ bank, originalName: req.file.originalname })
     });
-
-    // Update order status potentially?
-    // Maybe keep 'pending' until admin verifies.
 
     res.status(201).json({
         status: 'success',
@@ -71,7 +66,7 @@ export const uploadManualPayment = catchAsync(async (req, res, next) => {
     });
 });
 
-export const handleMidtransWebhook = catchAsync(async (req, res, next) => {
+export const handleMidtransWebhook = asyncHandler(async (req, res, next) => {
     const notification = req.body;
 
     const result = await PaymentService.handleNotification(notification);
@@ -79,7 +74,7 @@ export const handleMidtransWebhook = catchAsync(async (req, res, next) => {
     res.status(200).json(result);
 });
 
-export const getPayments = catchAsync(async (req, res, next) => {
+export const getPayments = asyncHandler(async (req, res, next) => {
     // Admin list all, user list theirs
     const where = {};
     if (req.user.role !== 'admin') {
@@ -95,7 +90,7 @@ export const getPayments = catchAsync(async (req, res, next) => {
     });
 });
 
-export const getPayment = catchAsync(async (req, res, next) => {
+export const getPayment = asyncHandler(async (req, res, next) => {
     const payment = await Payment.findByPk(req.params.id, { include: ['order'] });
 
     if (!payment) return next(new AppError('Payment not found', 404));
@@ -111,7 +106,7 @@ export const getPayment = catchAsync(async (req, res, next) => {
     });
 });
 
-export const verifyPayment = catchAsync(async (req, res, next) => {
+export const verifyPayment = asyncHandler(async (req, res, next) => {
     const { id } = req.params;
     const { action, notes } = req.body; // action: 'approve' | 'reject'
 

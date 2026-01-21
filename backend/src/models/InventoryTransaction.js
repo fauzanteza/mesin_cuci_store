@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
 const InventoryTransaction = sequelize.define('InventoryTransaction', {
     id: {
@@ -59,4 +59,4 @@ const InventoryTransaction = sequelize.define('InventoryTransaction', {
     underscored: true
 });
 
-module.exports = InventoryTransaction;
+export default InventoryTransaction;

@@ -1,7 +1,7 @@
 import express from 'express';
 import * as paymentController from '../controllers/payment.controller.js';
 import { protect, restrictTo } from '../middleware/auth.js';
-import upload from '../middleware/upload.js'; // Assuming basic multer setup
+import { upload } from '../middleware/upload.js'; // Assuming basic multer setup
 
 const router = express.Router();
 
