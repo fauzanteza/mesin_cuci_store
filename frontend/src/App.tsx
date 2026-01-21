@@ -28,19 +28,24 @@ const UserOrderDetailPage = lazy(() => import('./pages/User/OrderDetailPage'))
 const ProfilePage = lazy(() => import('./pages/User/ProfilePage'))
 const AddressesPage = lazy(() => import('./pages/User/AddressesPage'))
 const WishlistPage = lazy(() => import('./pages/User/WishlistPage'))
-const OrderHistoryPage = lazy(() => import('./pages/User/OrderHistoryPage')) // Keeping for backward compatibility if needed, or remove if unused
+const UserSettingsPage = lazy(() => import('./pages/User/UserSettingsPage'))
 
 // Admin Pages
 const AdminDashboard = lazy(() => import('./pages/Admin/DashboardPage'))
-const AdminProducts = lazy(() => import('./pages/Admin/Products'))
-const AdminOrders = lazy(() => import('./pages/Admin/Orders'))
-const AdminCustomers = lazy(() => import('./pages/Admin/Customers'))
-const AdminReports = lazy(() => import('./pages/Admin/Reports'))
+const AdminProducts = lazy(() => import('./pages/Admin/ProductsPage')) // Corrected path if needed, previously 'Products'
+const AdminOrders = lazy(() => import('./pages/Admin/OrdersPage')) // Corrected path if needed, previously 'Orders'
+const AdminCustomers = lazy(() => import('./pages/Admin/UsersPage')) // Corrected path to UsersPage based on list
+const AdminReports = lazy(() => import('./pages/Admin/ReportsPage')) // Corrected path based on list
+const AdminSettings = lazy(() => import('./pages/Admin/SettingsPage'))
+const AdminLogs = lazy(() => import('./pages/Admin/LogsPage'))
 
 // Static Pages
 const AboutPage = lazy(() => import('./pages/Static/AboutPage'))
 const ContactPage = lazy(() => import('./pages/Static/ContactPage'))
 const FAQPage = lazy(() => import('./pages/Static/FAQPage'))
+const PrivacyPolicyPage = lazy(() => import('./pages/Static/PrivacyPolicyPage'))
+const TermsPage = lazy(() => import('./pages/Static/TermsPage'))
+const ShippingPolicyPage = lazy(() => import('./pages/Static/ShippingPolicyPage'))
 const NotFoundPage = lazy(() => import('./pages/Static/NotFoundPage'))
 
 function App() {
@@ -56,9 +61,14 @@ function App() {
                             <Route path="products" element={<ProductsPage />} />
                             <Route path="products/:id" element={<ProductDetailPage />} />
                             <Route path="cart" element={<CartPage />} />
+
+                            {/* Static Pages */}
                             <Route path="about" element={<AboutPage />} />
                             <Route path="contact" element={<ContactPage />} />
                             <Route path="faq" element={<FAQPage />} />
+                            <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+                            <Route path="terms" element={<TermsPage />} />
+                            <Route path="shipping-policy" element={<ShippingPolicyPage />} />
 
                             {/* Auth Routes */}
                             <Route path="login" element={<LoginPage />} />
@@ -76,12 +86,8 @@ function App() {
                                     <Route path="addresses" element={<AddressesPage />} />
                                     <Route path="profile" element={<ProfilePage />} />
                                     <Route path="wishlist" element={<WishlistPage />} />
+                                    <Route path="settings" element={<UserSettingsPage />} />
                                 </Route>
-
-                                {/* Legacy/Direct Routes - Optional, keeping for safety */}
-                                <Route path="profile" element={<ProfilePage />} />
-                                <Route path="orders" element={<OrderHistoryPage />} />
-                                <Route path="wishlist" element={<WishlistPage />} />
                             </Route>
 
                             {/* Admin Routes */}
@@ -92,6 +98,8 @@ function App() {
                                     <Route path="orders" element={<AdminOrders />} />
                                     <Route path="customers" element={<AdminCustomers />} />
                                     <Route path="reports" element={<AdminReports />} />
+                                    <Route path="settings" element={<AdminSettings />} />
+                                    <Route path="logs" element={<AdminLogs />} />
                                 </Route>
                             </Route>
 

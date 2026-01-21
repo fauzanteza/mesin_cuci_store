@@ -15,7 +15,12 @@
         "test:coverage": "jest --coverage"
     },
     "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
         "@hookform/resolvers": "^3.1.0",
+        "@mui/icons-material": "^7.3.7",
+        "@mui/material": "^7.3.7",
+        "@mui/x-date-pickers": "^8.25.0",
         "@reduxjs/toolkit": "^1.9.5",
         "@tanstack/react-query": "^5.90.19",
         "@tanstack/react-query-devtools": "^5.91.2",

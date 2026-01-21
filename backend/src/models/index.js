@@ -23,6 +23,8 @@ import AbandonedCart from './AbandonedCart.js';
 import SiteSetting from './SiteSetting.js';
 import Banner from './Banner.js';
 import ReturnRequest from './ReturnRequest.js';
+import InventoryTransaction from './InventoryTransaction.js';
+import TokenBlacklist from './TokenBlacklist.js';
 
 // Define associations
 const defineAssociations = () => {
@@ -37,6 +39,7 @@ const defineAssociations = () => {
   User.hasMany(ProductComparison, { foreignKey: 'user_id', as: 'productComparisons' });
   User.hasMany(ProductView, { foreignKey: 'user_id', as: 'productViews' });
   User.hasMany(AbandonedCart, { foreignKey: 'user_id', as: 'abandonedCarts' });
+  User.hasMany(InventoryTransaction, { foreignKey: 'created_by', as: 'inventoryTransactions' });
 
   Address.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
   Order.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -48,6 +51,7 @@ const defineAssociations = () => {
   ProductComparison.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
   ProductView.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
   AbandonedCart.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+  InventoryTransaction.belongsTo(User, { foreignKey: 'created_by', as: 'creator' });
 
   // Category associations
   Category.hasMany(Product, { foreignKey: 'category_id', as: 'products' });
@@ -67,6 +71,7 @@ const defineAssociations = () => {
   Product.hasMany(OrderItem, { foreignKey: 'product_id', as: 'orderItems' });
   Product.hasMany(CartItem, { foreignKey: 'product_id', as: 'cartItems' });
   Product.hasMany(WishlistItem, { foreignKey: 'product_id', as: 'wishlistItems' });
+  Product.hasMany(InventoryTransaction, { foreignKey: 'product_id', as: 'inventoryTransactions' });
 
   ProductImage.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
   ProductVariant.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
@@ -74,6 +79,7 @@ const defineAssociations = () => {
   OrderItem.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
   CartItem.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
   WishlistItem.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
+  InventoryTransaction.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
 
   // Order associations
   Order.hasMany(OrderItem, { foreignKey: 'order_id', as: 'items' });
@@ -136,6 +142,9 @@ const models = {
   SiteSetting,
   Banner,
   ReturnRequest,
+  InventoryTransaction,
+  TokenBlacklist,
+
 };
 
 export default models;

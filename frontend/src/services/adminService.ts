@@ -120,6 +120,22 @@ const adminService = {
         return response.data;
     },
 
+    // Logs
+    getLogs: async (params: any) => {
+        const response = await api.get('/admin/logs', { params });
+        return response.data;
+    },
+
+    deleteLog: async (id: string) => {
+        const response = await api.delete(`/admin/logs/${id}`);
+        return response.data;
+    },
+
+    bulkDeleteLogs: async (ids: string[]) => {
+        const response = await api.post('/admin/logs/bulk-delete', { ids });
+        return response.data;
+    },
+
     // Category Management
     getCategories: async (params: any) => {
         const response = await api.get('/admin/categories', { params });
@@ -184,6 +200,17 @@ const adminService = {
                 'Content-Type': 'multipart/form-data',
             },
         });
+        return response.data;
+    },
+
+    // Settings
+    getSettings: async () => {
+        const response = await api.get('/admin/settings');
+        return response.data;
+    },
+
+    updateSettings: async (data: any) => {
+        const response = await api.put('/admin/settings', data);
         return response.data;
     }
 };

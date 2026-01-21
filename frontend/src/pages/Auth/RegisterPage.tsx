@@ -2,9 +2,8 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
-import { Loader2 } from 'lucide-react'
 
-import { authService } from '../../services/auth.service'
+import authService from '../../services/authService'
 import Button from '../../components/UI/Button'
 
 // Export interface for use in authService
@@ -68,8 +67,8 @@ const RegisterPage = () => {
                             type="text"
                             placeholder="Nama Anda"
                             className={`w-full px-4 py-2 rounded-lg border ${errors.name
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-300 focus:ring-primary-500'
                                 } focus:outline-none focus:ring-2 transition-all`}
                             {...register('name', {
                                 required: 'Nama harus diisi',
@@ -94,8 +93,8 @@ const RegisterPage = () => {
                             type="email"
                             placeholder="nama@email.com"
                             className={`w-full px-4 py-2 rounded-lg border ${errors.email
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-300 focus:ring-primary-500'
                                 } focus:outline-none focus:ring-2 transition-all`}
                             {...register('email', {
                                 required: 'Email harus diisi',
@@ -124,8 +123,8 @@ const RegisterPage = () => {
                             type="password"
                             placeholder="********"
                             className={`w-full px-4 py-2 rounded-lg border ${errors.password
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-300 focus:ring-primary-500'
                                 } focus:outline-none focus:ring-2 transition-all`}
                             {...register('password', {
                                 required: 'Password harus diisi',
@@ -154,8 +153,8 @@ const RegisterPage = () => {
                             type="password"
                             placeholder="********"
                             className={`w-full px-4 py-2 rounded-lg border ${errors.confirmPassword
-                                    ? 'border-red-500 focus:ring-red-500'
-                                    : 'border-gray-300 focus:ring-primary-500'
+                                ? 'border-red-500 focus:ring-red-500'
+                                : 'border-gray-300 focus:ring-primary-500'
                                 } focus:outline-none focus:ring-2 transition-all`}
                             {...register('confirmPassword', {
                                 required: 'Konfirmasi password harus diisi',

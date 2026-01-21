@@ -1,25 +1,25 @@
-// backend/src/services/order.service.js
-import {
-    Order,
-    OrderItem,
-    User,
-    Address,
-    Product,
-    OrderStatusHistory,
-    sequelize
-} from '../models/index.js';
-import { v4 as uuidv4 } from 'uuid';
-import emailService from './email.service.js';
-import { AppError } from '../utils/appError.js';
-import { Op } from 'sequelize';
+const { Op } = require('sequelize');
+const Order = require('../models/Order');
+const OrderItem = require('../models/OrderItem');
+const User = require('../models/User');
+const Product = require('../models/Product');
+const Address = require('../models/Address');
+const Payment = require('../models/Payment');
+const OrderStatusHistory = require('../models/OrderStatusHistory');
+const InventoryService = require('./inventory.service');
+const NotificationService = require('./notification.service');
+const PaymentService = require('./payment.service');
+const AppError = require('../utils/appError');
 
 class OrderService {
-    async createOrder(orderData) {
+    /**
+     * Create new order
+     */
+    static async createOrder(userId, orderData) {
         const transaction = await sequelize.transaction();
 
         try {
             const {
-                userId,
                 items,
                 shippingAddressId,
                 billingAddressId,
@@ -28,507 +28,800 @@ class OrderService {
                 notes
             } = orderData;
 
+            // Validate items
+            if (!items || items.length === 0) {
+                throw new AppError('Keranjang belanja kosong', 400);
+            }
+
             // Get user
             const user = await User.findByPk(userId, { transaction });
             if (!user) {
-                throw new AppError('User not found', 404);
+                throw new AppError('User tidak ditemukan', 404);
             }
 
-            // Get addresses
+            // Get shipping address
             const shippingAddress = await Address.findOne({
                 where: { id: shippingAddressId, userId },
                 transaction
             });
 
             if (!shippingAddress) {
-                throw new AppError('Shipping address not found', 404);
+                throw new AppError('Alamat pengiriman tidak ditemukan', 404);
             }
 
+            // Get billing address (use shipping address if not provided)
             let billingAddress = shippingAddress;
             if (billingAddressId && billingAddressId !== shippingAddressId) {
                 billingAddress = await Address.findOne({
                     where: { id: billingAddressId, userId },
                     transaction
                 });
+
                 if (!billingAddress) {
-                    throw new AppError('Billing address not found', 404);
+                    throw new AppError('Alamat penagihan tidak ditemukan', 404);
                 }
             }
 
-            // Validate items and calculate totals
+            // Calculate order details
             let subtotal = 0;
+            let totalWeight = 0;
             const orderItems = [];
 
+            // Process each item
             for (const item of items) {
                 const product = await Product.findByPk(item.productId, { transaction });
+
                 if (!product) {
-                    throw new AppError(`Product ${item.productId} not found`, 404);
+                    throw new AppError(`Produk ${item.productId} tidak ditemukan`, 404);
                 }
 
-                // if (!product.isActive) {
-                //   throw new AppError(`Product ${product.name} is not available`, 400);
-                // }
+                if (!product.isActive) {
+                    throw new AppError(`Produk ${product.name} tidak tersedia`, 400);
+                }
 
                 if (product.stock < item.quantity) {
-                    throw new AppError(`Insufficient stock for ${product.name}. Available: ${product.stock}`, 400);
+                    throw new AppError(
+                        `Stok ${product.name} tidak mencukupi. Tersedia: ${product.stock}`,
+                        400
+                    );
                 }
 
-                const itemTotal = product.price * item.quantity;
-                subtotal += itemTotal;
+                // Calculate item total
+                const price = product.discountPrice || product.price;
+                const itemTotal = price * item.quantity;
 
                 orderItems.push({
-                    orderId: null, // Will be set after order creation
                     productId: product.id,
                     productName: product.name,
                     productSku: product.sku,
-                    price: product.price,
+                    productImage: product.image,
+                    price,
                     quantity: item.quantity,
-                    subtotal: itemTotal,
-                    imageUrl: product.images?.[0]?.url,
-                    specifications: JSON.stringify(product.specifications)
+                    total: itemTotal,
+                    weight: product.weight || 0,
+                    variantId: item.variantId
                 });
 
-                // Update product stock
-                product.stock -= item.quantity;
-                await product.save({ transaction });
+                subtotal += itemTotal;
+                totalWeight += (product.weight || 0) * item.quantity;
+
+                // Reserve stock
+                await InventoryService.updateStock(
+                    product.id,
+                    -item.quantity,
+                    'RESERVED',
+                    `Reserved for order`,
+                    userId,
+                    transaction
+                );
             }
 
             // Calculate shipping cost
-            const shippingCost = shippingMethod.cost || 0;
+            const shippingCost = await this.calculateShippingCost(
+                shippingAddress,
+                totalWeight,
+                shippingMethod
+            );
 
-            // Calculate tax (11% VAT)
-            const tax = Math.round(subtotal * 0.11);
+            // Calculate tax (11% PPN Indonesia)
+            const taxRate = 0.11;
+            const taxAmount = subtotal * taxRate;
 
             // Calculate total
-            const total = subtotal + shippingCost + tax;
+            const totalAmount = subtotal + shippingCost + taxAmount;
 
             // Generate order number
-            const orderNumber = `ORD${Date.now()}${Math.floor(Math.random() * 1000)}`.slice(0, 12);
+            const orderNumber = this.generateOrderNumber();
 
             // Create order
-            const order = await Order.create({
-                orderNumber,
-                userId,
-                shippingAddressId: shippingAddress.id,
-                billingAddressId: billingAddress.id,
-                shippingMethod: shippingMethod.name,
-                shippingCost,
-                shippingProvider: shippingMethod.provider,
-                paymentMethod: paymentMethod.name,
-                paymentProvider: paymentMethod.provider,
-                subtotal,
-                tax,
-                total,
-                status: 'pending',
-                notes,
-                estimatedDelivery: shippingMethod.estimatedDays
-            }, { transaction });
-
-            // Create order items
-            await OrderItem.bulkCreate(
-                orderItems.map(item => ({
-                    ...item,
-                    orderId: order.id
-                })),
+            const order = await Order.create(
+                {
+                    orderNumber,
+                    userId,
+                    subtotal,
+                    shippingCost,
+                    taxAmount,
+                    totalAmount,
+                    shippingAddressId: shippingAddress.id,
+                    billingAddressId: billingAddress.id,
+                    shippingMethod,
+                    paymentMethod,
+                    notes,
+                    status: 'pending',
+                    paymentStatus: 'pending',
+                    items: orderItems,
+                    shippingAddress: shippingAddress.toJSON(),
+                    billingAddress: billingAddress.toJSON()
+                },
                 { transaction }
             );
 
+            // Create order items
+            for (const item of orderItems) {
+                await OrderItem.create(
+                    {
+                        orderId: order.id,
+                        productId: item.productId,
+                        productName: item.productName,
+                        productSku: item.productSku,
+                        productImage: item.productImage,
+                        price: item.price,
+                        quantity: item.quantity,
+                        total: item.total,
+                        variantId: item.variantId
+                    },
+                    { transaction }
+                );
+            }
+
             // Create initial status history
-            // Note: If OrderStatusHistory model doesn't exist, this might fail unless enabled.
-            // I'll wrap in try catch or check existence? 
-            // The user provided full code assumption is that models exist.
-            // I will assume they exist.
-            try {
-                await OrderStatusHistory.create({
+            await OrderStatusHistory.create(
+                {
                     orderId: order.id,
                     status: 'pending',
                     notes: 'Order created'
-                }, { transaction });
-            } catch (e) {
-                console.warn('OrderStatusHistory creation failed, skipping', e);
-            }
+                },
+                { transaction }
+            );
 
-            // Send confirmation email
-            try {
-                await emailService.sendOrderConfirmation(user.email, order, orderItems);
-            } catch (e) {
-                console.warn('Email sending failed', e);
-            }
-
-            // Send notification (if implemented)
-            // await notificationService.sendOrderCreated(user.id, order);
-
+            // Commit transaction
             await transaction.commit();
 
-            // Get full order details
-            const fullOrder = await this.getOrderById(order.id, userId);
+            // Send order confirmation email
+            await NotificationService.sendEmail(
+                user.email,
+                'orderConfirmation',
+                {
+                    orderNumber: order.orderNumber,
+                    orderDate: order.createdAt,
+                    items: orderItems,
+                    subtotal,
+                    shippingCost,
+                    taxAmount,
+                    totalAmount,
+                    shippingAddress: shippingAddress.toJSON(),
+                    billingAddress: billingAddress.toJSON()
+                }
+            );
 
-            return fullOrder;
+            // Notify admin
+            await NotificationService.notifyAdminNewOrder({
+                ...order.toJSON(),
+                userName: user.name,
+                userEmail: user.email
+            });
 
+            return order;
         } catch (error) {
             await transaction.rollback();
             throw error;
         }
     }
 
-    async getOrderById(id, userId) {
-        const order = await Order.findByPk(id, {
-            include: [
-                {
-                    model: OrderItem,
-                    as: 'items',
-                    attributes: ['id', 'productId', 'productName', 'productSku', 'price', 'quantity', 'subtotal', 'imageUrl']
-                },
-                {
-                    model: Address,
-                    as: 'shippingAddress',
-                    attributes: ['id', 'name', 'recipient', 'phone', 'address', 'city', 'province', 'postalCode']
-                },
-                {
-                    model: Address,
-                    as: 'billingAddress',
-                    attributes: ['id', 'name', 'recipient', 'phone', 'address', 'city', 'province', 'postalCode']
-                },
-                {
-                    model: User,
-                    attributes: ['id', 'name', 'email', 'phone']
-                },
-                // {
-                //   model: OrderStatusHistory,
-                //   as: 'statusHistory',
-                //   order: [['createdAt', 'DESC']],
-                //   limit: 10
-                // }
-            ]
-        });
-
-        if (!order) {
-            throw new AppError('Order not found', 404);
-        }
-
-        // Check authorization
-        if (order.userId !== userId && userId !== 'admin') {
-            throw new AppError('Unauthorized access to order', 403);
-        }
-
-        return order;
-    }
-
-    async getUserOrders(userId, page = 1, limit = 10, status = null) {
-        const offset = (page - 1) * limit;
-
-        const where = { userId };
-        if (status) {
-            where.status = status;
-        }
-
-        const { rows: orders, count } = await Order.findAndCountAll({
-            where,
-            include: [
-                {
-                    model: OrderItem,
-                    as: 'items',
-                    limit: 3,
-                    attributes: ['id', 'productName', 'price', 'quantity', 'imageUrl']
-                }
-            ],
-            order: [['createdAt', 'DESC']],
-            limit,
-            offset,
-            distinct: true
-        });
-
-        return {
-            orders,
-            pagination: {
-                page,
-                limit,
-                total: count,
-                totalPages: Math.ceil(count / limit)
-            }
-        };
-    }
-
-    async updateOrderStatus(id, status, userId, notes = '') {
-        const order = await Order.findByPk(id);
-        if (!order) {
-            throw new AppError('Order not found', 404);
-        }
-
-        // Validate status transition
-        const validTransitions = {
-            pending: ['confirmed', 'cancelled'],
-            confirmed: ['processing', 'cancelled'],
-            processing: ['shipped', 'cancelled'],
-            shipped: ['delivered'],
-            delivered: [],
-            cancelled: []
-        };
-
-        const allowedStatuses = validTransitions[order.status] || [];
-        if (!allowedStatuses.includes(status)) {
-            throw new AppError(`Cannot change status from ${order.status} to ${status}`, 400);
-        }
-
-        // Update order status
-        order.status = status;
-        await order.save();
-
-        // Create status history
+    /**
+     * Get order by ID
+     */
+    static async getOrderById(orderId, userId = null) {
         try {
-            await OrderStatusHistory.create({
-                orderId: order.id,
-                status,
-                changedBy: userId,
-                notes: notes || `Status changed to ${status}`
+            const where = { id: orderId };
+            if (userId) {
+                where.userId = userId;
+            }
+
+            const order = await Order.findOne({
+                where,
+                include: [
+                    {
+                        model: OrderItem,
+                        as: 'items',
+                        include: [{
+                            model: Product,
+                            attributes: ['id', 'name', 'image', 'slug']
+                        }]
+                    },
+                    {
+                        model: Address,
+                        as: 'shippingAddress'
+                    },
+                    {
+                        model: Address,
+                        as: 'billingAddress'
+                    },
+                    {
+                        model: Payment,
+                        as: 'payment'
+                    },
+                    {
+                        model: OrderStatusHistory,
+                        as: 'statusHistory',
+                        order: [['createdAt', 'DESC']]
+                    }
+                ]
             });
-        } catch (e) {
-            console.warn('Status history update failed', e);
+
+            if (!order) {
+                throw new AppError('Pesanan tidak ditemukan', 404);
+            }
+
+            return order;
+        } catch (error) {
+            throw error;
         }
-
-        // Get user for notification
-        const user = await User.findByPk(order.userId);
-        if (user) {
-            // Send status update email
-            try {
-                await emailService.sendOrderStatusUpdate(user.email, order);
-            } catch (e) { }
-
-            // Send notification
-            // await notificationService.sendOrderStatusUpdate(user.id, order);
-        }
-
-        return order;
     }
 
-    async cancelOrder(id, userId, reason) {
-        const order = await Order.findByPk(id);
-        if (!order) {
-            throw new AppError('Order not found', 404);
-        }
+    /**
+     * Get order by order number
+     */
+    static async getOrderByNumber(orderNumber, userId = null) {
+        try {
+            const where = { orderNumber };
+            if (userId) {
+                where.userId = userId;
+            }
 
-        // Check authorization
-        if (order.userId !== userId) {
-            throw new AppError('Unauthorized to cancel this order', 403);
-        }
+            const order = await Order.findOne({
+                where,
+                include: [
+                    {
+                        model: OrderItem,
+                        as: 'items'
+                    },
+                    {
+                        model: User,
+                        attributes: ['id', 'name', 'email', 'phone']
+                    }
+                ]
+            });
 
-        // Check if order can be cancelled
-        const cancellableStatuses = ['pending', 'confirmed'];
-        if (!cancellableStatuses.includes(order.status)) {
-            throw new AppError(`Cannot cancel order in ${order.status} status`, 400);
-        }
+            if (!order) {
+                throw new AppError('Pesanan tidak ditemukan', 404);
+            }
 
+            return order;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Get user orders
+     */
+    static async getUserOrders(userId, filters = {}) {
+        try {
+            const { page = 1, limit = 10, status, startDate, endDate } = filters;
+            const offset = (page - 1) * limit;
+
+            const where = { userId };
+
+            if (status) {
+                where.status = status;
+            }
+
+            if (startDate && endDate) {
+                where.createdAt = {
+                    [Op.between]: [new Date(startDate), new Date(endDate)]
+                };
+            }
+
+            const orders = await Order.findAndCountAll({
+                where,
+                include: [{
+                    model: OrderItem,
+                    as: 'items',
+                    limit: 3
+                }],
+                order: [['createdAt', 'DESC']],
+                limit: parseInt(limit),
+                offset: parseInt(offset)
+            });
+
+            return {
+                orders: orders.rows,
+                pagination: {
+                    page: parseInt(page),
+                    limit: parseInt(limit),
+                    total: orders.count,
+                    pages: Math.ceil(orders.count / limit)
+                }
+            };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Get all orders (admin)
+     */
+    static async getAllOrders(filters = {}) {
+        try {
+            const {
+                page = 1,
+                limit = 20,
+                status,
+                paymentStatus,
+                startDate,
+                endDate,
+                search
+            } = filters;
+
+            const offset = (page - 1) * limit;
+            const where = {};
+
+            if (status) {
+                where.status = status;
+            }
+
+            if (paymentStatus) {
+                where.paymentStatus = paymentStatus;
+            }
+
+            if (startDate && endDate) {
+                where.createdAt = {
+                    [Op.between]: [new Date(startDate), new Date(endDate)]
+                };
+            }
+
+            if (search) {
+                where[Op.or] = [
+                    { orderNumber: { [Op.like]: `%${search}%` } },
+                    { '$user.name$': { [Op.like]: `%${search}%` } },
+                    { '$user.email$': { [Op.like]: `%${search}%` } }
+                ];
+            }
+
+            const orders = await Order.findAndCountAll({
+                where,
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'name', 'email', 'phone']
+                    },
+                    {
+                        model: OrderItem,
+                        as: 'items',
+                        limit: 2
+                    }
+                ],
+                order: [['createdAt', 'DESC']],
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                distinct: true
+            });
+
+            return {
+                orders: orders.rows,
+                pagination: {
+                    page: parseInt(page),
+                    limit: parseInt(limit),
+                    total: orders.count,
+                    pages: Math.ceil(orders.count / limit)
+                }
+            };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Update order status
+     */
+    static async updateOrderStatus(orderId, newStatus, notes = '', userId = null) {
         const transaction = await sequelize.transaction();
 
         try {
+            const order = await Order.findByPk(orderId, { transaction });
+
+            if (!order) {
+                throw new AppError('Pesanan tidak ditemukan', 404);
+            }
+
+            const oldStatus = order.status;
+
+            // Validate status transition
+            if (!this.isValidStatusTransition(oldStatus, newStatus)) {
+                throw new AppError(`Transisi status dari ${oldStatus} ke ${newStatus} tidak valid`, 400);
+            }
+
+            // Update order status
+            order.status = newStatus;
+
+            // Update payment status if order is completed
+            if (newStatus === 'delivered') {
+                order.paymentStatus = 'paid';
+                order.deliveredAt = new Date();
+            } else if (newStatus === 'cancelled') {
+                order.paymentStatus = 'refunded';
+                await this.restoreOrderStock(orderId, transaction);
+            }
+
+            await order.save({ transaction });
+
+            // Create status history record
+            await OrderStatusHistory.create(
+                {
+                    orderId,
+                    status: newStatus,
+                    notes,
+                    changedBy: userId
+                },
+                { transaction }
+            );
+
+            // Commit transaction
+            await transaction.commit();
+
+            // Get user for notification
+            const user = await User.findByPk(order.userId);
+            if (user) {
+                // Notify user about status update
+                await NotificationService.notifyUserOrderStatus(order, user);
+            }
+
+            return order;
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
+        }
+    }
+
+    /**
+     * Cancel order
+     */
+    static async cancelOrder(orderId, userId, reason = '') {
+        try {
+            const order = await Order.findOne({
+                where: { id: orderId, userId }
+            });
+
+            if (!order) {
+                throw new AppError('Pesanan tidak ditemukan', 404);
+            }
+
+            // Check if order can be cancelled
+            if (!['pending', 'processing'].includes(order.status)) {
+                throw new AppError(
+                    `Pesanan dengan status ${order.status} tidak dapat dibatalkan`,
+                    400
+                );
+            }
+
             // Update order status
             order.status = 'cancelled';
             order.cancellationReason = reason;
-            await order.save({ transaction });
+            await order.save();
 
-            // Restore product stock
+            // Restore stock
+            await this.restoreOrderStock(orderId);
+
+            // Create status history
+            await OrderStatusHistory.create({
+                orderId,
+                status: 'cancelled',
+                notes: `Order cancelled by user. Reason: ${reason}`
+            });
+
+            // Send cancellation email
+            const user = await User.findByPk(userId);
+            if (user) {
+                await NotificationService.sendEmail(
+                    user.email,
+                    'orderCancelled',
+                    {
+                        orderNumber: order.orderNumber,
+                        reason,
+                        refundStatus: 'Dalam proses'
+                    }
+                );
+            }
+
+            return order;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Calculate shipping cost
+     */
+    static async calculateShippingCost(address, weight, method) {
+        try {
+            // In production, integrate with RajaOngkir API
+            // For now, use simplified calculation
+
+            const baseCost = 15000; // Base cost for Jabodetabek
+            const weightCost = Math.ceil(weight / 1000) * 5000; // Rp 5,000 per kg
+            const distanceMultiplier = this.getDistanceMultiplier(address.city);
+
+            let methodMultiplier = 1;
+            switch (method) {
+                case 'express':
+                    methodMultiplier = 2;
+                    break;
+                case 'same_day':
+                    methodMultiplier = 3;
+                    break;
+                case 'economy':
+                    methodMultiplier = 0.7;
+                    break;
+            }
+
+            const totalCost = (baseCost + weightCost) * distanceMultiplier * methodMultiplier;
+
+            return Math.ceil(totalCost / 1000) * 1000; // Round to nearest 1000
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Get distance multiplier based on city
+     */
+    static getDistanceMultiplier(city) {
+        const zones = {
+            // Jabodetabek
+            'jakarta': 1,
+            'bogor': 1.2,
+            'depok': 1.1,
+            'tangerang': 1.1,
+            'bekasi': 1.1,
+
+            // Java
+            'bandung': 1.5,
+            'semarang': 2,
+            'yogyakarta': 2.2,
+            'surabaya': 2.5,
+
+            // Outside Java
+            'medan': 3,
+            'palembang': 2.8,
+            'makassar': 4,
+            'denpasar': 3.5
+        };
+
+        const cityLower = city.toLowerCase();
+        for (const [key, value] of Object.entries(zones)) {
+            if (cityLower.includes(key)) {
+                return value;
+            }
+        }
+
+        return 2; // Default multiplier
+    }
+
+    /**
+     * Generate order number
+     */
+    static generateOrderNumber() {
+        const date = new Date();
+        const year = date.getFullYear().toString().slice(-2);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+
+        return `ORD${year}${month}${day}${random}`;
+    }
+
+    /**
+     * Validate status transition
+     */
+    static isValidStatusTransition(fromStatus, toStatus) {
+        const validTransitions = {
+            pending: ['processing', 'cancelled'],
+            processing: ['shipped', 'cancelled'],
+            shipped: ['delivered', 'cancelled'],
+            delivered: ['completed', 'returned'],
+            completed: [],
+            cancelled: [],
+            returned: ['refunded']
+        };
+
+        return validTransitions[fromStatus]?.includes(toStatus) || false;
+    }
+
+    /**
+     * Restore order stock
+     */
+    static async restoreOrderStock(orderId, transaction = null) {
+        try {
             const orderItems = await OrderItem.findAll({
-                where: { orderId: order.id },
+                where: { orderId },
                 transaction
             });
 
             for (const item of orderItems) {
-                const product = await Product.findByPk(item.productId, { transaction });
-                if (product) {
-                    product.stock += item.quantity;
-                    await product.save({ transaction });
-                }
+                await InventoryService.updateStock(
+                    item.productId,
+                    item.quantity,
+                    'RESTOCK',
+                    'Order cancelled/returned',
+                    null,
+                    transaction
+                );
             }
-
-            // Create status history
-            try {
-                await OrderStatusHistory.create({
-                    orderId: order.id,
-                    status: 'cancelled',
-                    changedBy: userId,
-                    notes: `Order cancelled. Reason: ${reason}`
-                }, { transaction });
-            } catch (e) { }
-
-            // Get user for notification
-            const user = await User.findByPk(userId, { transaction });
-            if (user) {
-                try {
-                    await emailService.sendOrderCancellation(user.email, order, reason);
-                } catch (e) { }
-            }
-
-            await transaction.commit();
-            return order;
-
         } catch (error) {
-            await transaction.rollback();
             throw error;
         }
     }
 
-    async getAdminOrders(filters = {}) {
-        const {
-            page = 1,
-            limit = 20,
-            status,
-            startDate,
-            endDate,
-            search
-        } = filters;
-
-        const offset = (page - 1) * limit;
-        const where = {};
-
-        // Status filter
-        if (status) {
-            where.status = status;
-        }
-
-        // Date range filter
-        if (startDate || endDate) {
-            where.createdAt = {};
-            if (startDate) {
-                where.createdAt[Op.gte] = new Date(startDate);
-            }
-            if (endDate) {
-                where.createdAt[Op.lte] = new Date(endDate);
-            }
-        }
-
-        // Search filter
-        if (search) {
-            where[Op.or] = [
-                { orderNumber: { [Op.like]: `%${search}%` } },
-                { '$user.name$': { [Op.like]: `%${search}%` } },
-                { '$user.email$': { [Op.like]: `%${search}%` } }
-            ];
-        }
-
-        const { rows: orders, count } = await Order.findAndCountAll({
-            where,
-            include: [
-                {
-                    model: User,
-                    attributes: ['id', 'name', 'email', 'phone']
-                },
-                {
-                    model: OrderItem,
-                    as: 'items',
-                    attributes: ['id', 'productName', 'quantity', 'subtotal']
-                }
-            ],
-            order: [['createdAt', 'DESC']],
-            limit,
-            offset,
-            distinct: true
-        });
-
-        return {
-            orders,
-            pagination: {
-                page,
-                limit,
-                total: count,
-                totalPages: Math.ceil(count / limit)
-            }
-        };
-    }
-
-    async getOrderStats() {
-        // Total orders count
-        const totalOrders = await Order.count();
-
-        // Orders by status
-        const ordersByStatus = await Order.findAll({
-            attributes: ['status', [sequelize.fn('COUNT', 'id'), 'count']],
-            group: ['status']
-        });
-
-        // Revenue stats
-        const revenueStats = await Order.findAll({
-            attributes: [
-                [sequelize.fn('SUM', sequelize.col('total')), 'totalRevenue'],
-                [sequelize.fn('AVG', sequelize.col('total')), 'averageOrderValue'],
-                [sequelize.fn('COUNT', 'id'), 'totalOrders']
-            ],
-            where: {
-                status: {
-                    [Op.notIn]: ['cancelled', 'pending']
-                }
-            }
-        });
-
-        // Monthly revenue
-        const monthlyRevenue = await Order.findAll({
-            attributes: [
-                [sequelize.fn('DATE_FORMAT', sequelize.col('createdAt'), '%Y-%m'), 'month'],
-                [sequelize.fn('SUM', sequelize.col('total')), 'revenue'],
-                [sequelize.fn('COUNT', 'id'), 'orders']
-            ],
-            where: {
-                status: {
-                    [Op.notIn]: ['cancelled', 'pending']
-                },
-                createdAt: {
-                    [Op.gte]: new Date(new Date().setMonth(new Date().getMonth() - 6))
-                }
-            },
-            group: ['month'],
-            order: [['month', 'DESC']]
-        });
-
-        return {
-            totalOrders,
-            ordersByStatus: ordersByStatus.reduce((acc, item) => {
-                acc[item.status] = item.dataValues.count;
-                return acc;
-            }, {}),
-            revenue: revenueStats[0]?.dataValues || {},
-            monthlyRevenue
-        };
-    }
-
-    async updateOrderTracking(id, trackingInfo, userId) {
-        const { trackingNumber, carrier, trackingUrl } = trackingInfo;
-
-        const order = await Order.findByPk(id);
-        if (!order) {
-            throw new AppError('Order not found', 404);
-        }
-
-        // Check if user is admin
-        const user = await User.findByPk(userId);
-        if (user.role !== 'admin') {
-            throw new AppError('Unauthorized', 403);
-        }
-
-        order.trackingNumber = trackingNumber;
-        order.carrier = carrier;
-        order.trackingUrl = trackingUrl;
-        order.status = 'shipped';
-        await order.save();
-
-        // Create status history
+    /**
+     * Get order statistics
+     */
+    static async getOrderStats(timeframe = 'month') {
         try {
-            await OrderStatusHistory.create({
-                orderId: order.id,
-                status: 'shipped',
-                changedBy: userId,
-                notes: `Tracking number: ${trackingNumber} (${carrier})`
+            const now = new Date();
+            let startDate;
+
+            switch (timeframe) {
+                case 'today':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    break;
+                case 'week':
+                    startDate = new Date(now.setDate(now.getDate() - 7));
+                    break;
+                case 'month':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    break;
+                case 'year':
+                    startDate = new Date(now.getFullYear(), 0, 1);
+                    break;
+                default:
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+            }
+
+            const stats = await Order.findAll({
+                where: {
+                    createdAt: { [Op.gte]: startDate },
+                    status: { [Op.notIn]: ['cancelled', 'pending'] }
+                },
+                attributes: [
+                    [sequelize.fn('COUNT', sequelize.col('id')), 'totalOrders'],
+                    [sequelize.fn('SUM', sequelize.col('totalAmount')), 'totalRevenue'],
+                    [sequelize.fn('AVG', sequelize.col('totalAmount')), 'averageOrderValue']
+                ],
+                raw: true
             });
-        } catch (e) { }
 
-        // Send tracking notification
-        const orderUser = await User.findByPk(order.userId);
-        if (orderUser) {
-            try {
-                await emailService.sendTrackingUpdate(orderUser.email, order, trackingInfo);
-            } catch (e) { }
+            // Get order status distribution
+            const statusDistribution = await Order.findAll({
+                where: { createdAt: { [Op.gte]: startDate } },
+                attributes: [
+                    'status',
+                    [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+                ],
+                group: ['status'],
+                raw: true
+            });
+
+            // Get top products
+            const topProducts = await OrderItem.findAll({
+                include: [{
+                    model: Order,
+                    where: { createdAt: { [Op.gte]: startDate } }
+                }],
+                attributes: [
+                    'productId',
+                    'productName',
+                    [sequelize.fn('SUM', sequelize.col('quantity')), 'totalSold'],
+                    [sequelize.fn('SUM', sequelize.col('total')), 'totalRevenue']
+                ],
+                group: ['productId', 'productName'],
+                order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'DESC']],
+                limit: 5,
+                raw: true
+            });
+
+            return {
+                timeframe,
+                period: { start: startDate, end: now },
+                overview: stats[0] || {},
+                statusDistribution,
+                topProducts
+            };
+        } catch (error) {
+            throw error;
         }
+    }
 
-        return order;
+    /**
+     * Process payment
+     */
+    static async processPayment(orderId, paymentData) {
+        try {
+            const order = await Order.findByPk(orderId);
+
+            if (!order) {
+                throw new AppError('Pesanan tidak ditemukan', 404);
+            }
+
+            if (order.paymentStatus !== 'pending') {
+                throw new AppError('Pesanan sudah diproses pembayarannya', 400);
+            }
+
+            // Create payment record
+            const payment = await Payment.create({
+                orderId,
+                ...paymentData,
+                status: 'pending'
+            });
+
+            // If payment is COD, update order status
+            if (paymentData.method === 'cod') {
+                order.paymentStatus = 'pending_cod';
+                await order.save();
+
+                await OrderStatusHistory.create({
+                    orderId,
+                    status: 'processing',
+                    notes: 'COD payment selected, waiting for delivery'
+                });
+            }
+
+            return payment;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Verify payment
+     */
+    static async verifyPayment(orderId, paymentProof) {
+        try {
+            const order = await Order.findByPk(orderId);
+
+            if (!order) {
+                throw new AppError('Pesanan tidak ditemukan', 404);
+            }
+
+            // Update payment with proof
+            const payment = await Payment.findOne({ where: { orderId } });
+            if (!payment) {
+                throw new AppError('Data pembayaran tidak ditemukan', 404);
+            }
+
+            payment.proofUrl = paymentProof;
+            payment.verifiedAt = new Date();
+            payment.status = 'verifying';
+            await payment.save();
+
+            // Update order status
+            order.paymentStatus = 'verifying';
+            await order.save();
+
+            await OrderStatusHistory.create({
+                orderId,
+                status: 'processing',
+                notes: 'Payment proof uploaded, waiting for verification'
+            });
+
+            // Notify admin for verification
+            await NotificationService.notifyAdminPaymentVerification(order);
+
+            return payment;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
-export default new OrderService();
+module.exports = OrderService;

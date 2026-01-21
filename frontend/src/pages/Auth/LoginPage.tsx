@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 import { Loader2 } from 'lucide-react'
 
 import { loginStart, loginSuccess, loginFailure } from '../../store/slices/authSlice'
-import { authService } from '../../services/auth.service'
+import authService from '../../services/authService'
 import { RootState } from '../../store'
 import Button from '../../components/UI/Button'
 
