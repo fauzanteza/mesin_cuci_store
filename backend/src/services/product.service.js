@@ -231,7 +231,6 @@ class ProductService {
             });
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId: productData.createdBy,
                 action: 'CREATE_PRODUCT',
@@ -292,7 +291,6 @@ class ProductService {
             }
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'UPDATE_PRODUCT',
@@ -323,7 +321,6 @@ class ProductService {
             await product.save();
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'DELETE_PRODUCT',
@@ -404,7 +401,6 @@ class ProductService {
             await image.destroy();
 
             // Log activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'DELETE_PRODUCT_IMAGE',
@@ -452,7 +448,7 @@ class ProductService {
             const reviews = await Review.findAndCountAll({
                 where: { productId, status: 'approved' },
                 include: [{
-                    model: require('../models/User'),
+                    model: User,
                     attributes: ['id', 'name', 'avatar']
                 }],
                 order: [[sortBy, sortOrder]],
@@ -480,8 +476,7 @@ class ProductService {
     static async addReview(userId, productId, reviewData) {
         try {
             // Check if user has purchased the product
-            const OrderItem = require('../models/OrderItem');
-            const Order = require('../models/Order');
+            // OrderItem and Order are already imported from models
 
             const hasPurchased = await OrderItem.findOne({
                 include: [{
@@ -515,7 +510,6 @@ class ProductService {
             await this.updateProductRating(productId);
 
             // Notify admin about new review
-            const NotificationService = require('./notification.service');
             await NotificationService.notifyAdminNewReview(review);
 
             return review;

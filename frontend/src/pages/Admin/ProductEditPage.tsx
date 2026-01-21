@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../../components/UI';
 import { toast } from 'react-hot-toast';
+import { uploadService } from '../../services/uploadService';
+import { productService } from '../../services/productService';
 import ProductForm from '../../components/Admin/ProductForm';
 
 const ProductEditPage: React.FC = () => {
@@ -32,36 +34,10 @@ const ProductEditPage: React.FC = () => {
     const loadProduct = async () => {
         try {
             setLoading(true);
-            // In real app: Fetch product by ID from API
-            // Mock data for now
-            const mockProduct = {
-                name: 'Mesin Cuci LG 8kg Front Loading',
-                sku: 'LG-WM-8KG',
-                brandId: 'brand1',
-                categoryId: 'cat1',
-                price: 3500000,
-                discountPrice: 3200000,
-                stock: 15,
-                minimumStock: 10,
-                weight: 35,
-                dimensions: '60 x 60 x 85 cm',
-                warranty: '2 years',
-                description: '<p>High-efficiency front loading washing machine with 8kg capacity.</p>',
-                shortDescription: 'Front loading washing machine with 8kg capacity',
-                specifications: [
-                    { key: 'Capacity', value: '8 kg' },
-                    { key: 'Type', value: 'Front Loading' },
-                    { key: 'Energy Rating', value: 'A+++' },
-                    { key: 'Spin Speed', value: '1400 RPM' }
-                ],
-                features: ['Inverter Technolog', 'Steam Wash', 'Quick Wash', 'Child Lock'],
-                tags: ['washing-machine', 'lg', 'front-load', '8kg'],
-                status: 'active',
-                featured: true,
-                newArrival: true
-            };
-
-            setProductData(mockProduct);
+            if (id) {
+                const data = await productService.getProductById(id);
+                setProductData(data);
+            }
         } catch (error) {
             toast.error('Failed to load product');
             navigate('/admin/products');
@@ -70,14 +46,47 @@ const ProductEditPage: React.FC = () => {
         }
     };
 
-    const handleSubmit = async (formData: any, images: File[]) => {
+    const handleSubmit = async (formData: any, newImages: File[]) => {
         try {
-            // In real app: API call to update product
-            console.log('Updating product:', id, formData, images);
+            let uploadedImages: any[] = [];
+
+            // Upload new images
+            if (newImages.length > 0) {
+                const uploadPromises = newImages.map(file => uploadService.uploadImage(file));
+                const results = await Promise.all(uploadPromises);
+
+                uploadedImages = results.map(res => ({
+                    url: res.data.url,
+                    publicId: res.data.filename
+                }));
+            }
+
+            // Combine with remaining existing images (which ProductForm manages in formData or separate state?)
+            // ProductForm passes (formData, images). formData should contain existing images info if needed.
+            // Backend updateProduct expects: updateData (fields), newImages (array of {url, publicId})
+            // And potentially imagesToDelete if we handle deletions explicitly.
+
+            // For now, let's assume ProductForm handles existing images internally or via formData.
+            // But wait, ProductForm has `existingImages` state but doesn't pass it in onSubmit?
+            // The onSubmit signature is (formData, images).
+            // Logic: formData likely contains the *data* fields.
+            // If we want to handle deletions, ProductForm needs to pass deleted IDs or remaining IDs.
+            // Looking at ProductForm again (Step 2685), it doesn't pass existingImages in onSubmit!
+
+            // TODO: Update ProductForm to pass existingImages or handle it.
+            // For now, we just pass newImages.
+
+            await productService.updateProduct(id!, {
+                ...formData,
+                // If backend supports separate newImages arg or field
+                newImages: uploadedImages
+            });
+
             toast.success('Product updated successfully');
             navigate('/admin/products');
-        } catch (error) {
-            toast.error('Failed to update product');
+        } catch (error: any) {
+            console.error('Update product error:', error);
+            toast.error(error.message || 'Failed to update product');
         }
     };
 

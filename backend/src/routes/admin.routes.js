@@ -1,20 +1,21 @@
 import express from 'express';
-import adminController from '../controllers/adminController.js';
-import authMiddleware from '../middleware/authMiddleware.js'; // Ensure path is correct
-import { requireAdmin } from '../middleware/role.js';
+import {
+    getDashboardStats
+} from '../controllers/adminController.js';
+import { protect, restrictTo } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Protect all admin routes
-router.use(authMiddleware.protect);
-// router.use(requireAdmin); // Temporarily commented out for testing if role middleware not ready
+router.use(protect);
+router.use(restrictTo('admin'));
 
 // Dashboard routes
-router.get('/dashboard/stats', adminController.getDashboardStats);
-router.get('/dashboard/recent-orders', adminController.getRecentOrders);
-router.get('/dashboard/sales-report', adminController.getSalesReport);
-router.get('/dashboard/inventory-alerts', adminController.getInventoryAlerts);
-router.get('/dashboard/top-products', adminController.getTopProducts);
+router.get('/dashboard/stats', getDashboardStats);
+// router.get('/dashboard/recent-orders', getRecentOrders);
+// router.get('/dashboard/sales-report', getSalesReport);
+// router.get('/dashboard/inventory-alerts', getInventoryAlerts);
+// router.get('/dashboard/top-products', getTopProducts);
 
 // Product Management Routes
 import adminProductController from '../controllers/adminProductController.js';

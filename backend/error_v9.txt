@@ -1,0 +1,13 @@
+C:\Users\lenovo\fauzan\mesin_cuci_store\backend\node_modules\express\lib\router\route.js:216
+        throw new Error(msg);
+              ^
+
+Error: Route.get() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as get] (C:\Users\lenovo\fauzan\mesin_cuci_store\backend\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as get] (C:\Users\lenovo\fauzan\mesin_cuci_store\backend\node_modules\express\lib\router\index.js:521:19)
+    at file:///C:/Users/lenovo/fauzan/mesin_cuci_store/backend/src/routes/admin.routes.js:13:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.12.0

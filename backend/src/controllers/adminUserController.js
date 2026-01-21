@@ -1,45 +1,47 @@
-import { User } from '../models/User.js';
-import { Address } from '../models/Address.js'; // Assuming this exists
-import { Order } from '../models/Order.js'; // Assuming this exists
-import AppError from '../utils/AppError.js';
+import models from '../models/index.js';
+import AppError from '../utils/appError.js';
+import { Op } from 'sequelize';
+
+const { User, Address, Order } = models;
 
 export const getUsers = async (req, res, next) => {
     try {
         const { search, role, status, page = 1, limit = 10, sort = 'newest' } = req.query;
-        const query = {};
+        const where = {};
 
         if (search) {
-            query.name = { $regex: search, $options: 'i' };
+            where.name = { [Op.like]: `%${search}%` };
         }
         if (role && role !== 'all') {
-            query.role = role;
+            where.role = role;
         }
         if (status && status !== 'all') {
-            query.status = status;
+            where.status = status; // Assuming User model has status
         }
 
-        const sortOptions = {
-            newest: { createdAt: -1 },
-            oldest: { createdAt: 1 },
-            name: { name: 1 },
-        };
+        const orderClause = [];
+        if (sort === 'newest') orderClause.push(['createdAt', 'DESC']);
+        else if (sort === 'oldest') orderClause.push(['createdAt', 'ASC']);
+        else if (sort === 'name') orderClause.push(['name', 'ASC']);
+        else orderClause.push(['createdAt', 'DESC']);
 
-        const users = await User.find(query)
-            .sort(sortOptions[sort] || { createdAt: -1 })
-            .skip((page - 1) * limit)
-            .limit(parseInt(limit));
-
-        const total = await User.countDocuments(query);
+        const { rows, count } = await User.findAndCountAll({
+            where,
+            order: orderClause,
+            limit: parseInt(limit),
+            offset: (parseInt(page) - 1) * parseInt(limit),
+            attributes: { exclude: ['password'] }
+        });
 
         res.status(200).json({
             status: 'success',
             data: {
-                users,
+                users: rows,
                 pagination: {
                     page: parseInt(page),
                     limit: parseInt(limit),
-                    total,
-                    pages: Math.ceil(total / limit)
+                    total: count,
+                    pages: Math.ceil(count / limit)
                 }
             }
         });
@@ -50,13 +52,15 @@ export const getUsers = async (req, res, next) => {
 
 export const getUser = async (req, res, next) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findByPk(req.params.id, {
+            attributes: { exclude: ['password'] },
+            include: [
+                { model: Address, as: 'addresses' }
+            ]
+        });
         if (!user) {
             return next(new AppError('User not found', 404));
         }
-
-        // Fetch additional data like addresses, orders, etc. if needed
-        // For mongoDB usually we can just return the user, or populate.
 
         res.status(200).json({
             status: 'success',
@@ -70,9 +74,13 @@ export const getUser = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
     try {
         const newUser = await User.create(req.body);
+        // Exclude password from response
+        const userResponse = newUser.toJSON();
+        delete userResponse.password;
+
         res.status(201).json({
             status: 'success',
-            data: { user: newUser }
+            data: { user: userResponse }
         });
     } catch (error) {
         next(error);
@@ -81,16 +89,16 @@ export const createUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
-        if (!updatedUser) {
+        const user = await User.findByPk(req.params.id);
+        if (!user) {
             return next(new AppError('User not found', 404));
         }
+
+        await user.update(req.body);
+
         res.status(200).json({
             status: 'success',
-            data: { user: updatedUser }
+            data: { user }
         });
     } catch (error) {
         next(error);
@@ -99,10 +107,11 @@ export const updateUser = async (req, res, next) => {
 
 export const deleteUser = async (req, res, next) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findByPk(req.params.id);
         if (!user) {
             return next(new AppError('User not found', 404));
         }
+        await user.destroy();
         res.status(204).json({
             status: 'success',
             data: null
@@ -115,10 +124,11 @@ export const deleteUser = async (req, res, next) => {
 export const updateUserStatus = async (req, res, next) => {
     try {
         const { status } = req.body;
-        const user = await User.findByIdAndUpdate(req.params.id, { status }, { new: true });
+        const user = await User.findByPk(req.params.id);
         if (!user) {
             return next(new AppError('User not found', 404));
         }
+        await user.update({ status });
         res.status(200).json({
             status: 'success',
             data: { user }

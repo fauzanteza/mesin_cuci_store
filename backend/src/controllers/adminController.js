@@ -1,13 +1,9 @@
-import { Op } from 'sequelize'; // Need Op for search
-import sequelize from '../config/database.js'; // Need sequelize for fn/col
+import { Op } from 'sequelize';
+import models from '../models/index.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import AppError from '../utils/appError.js';
-import User from '../models/User.js';
-import Order from '../models/Order.js';
-import Product from '../models/Product.js';
-import Review from '../models/Review.js';
-import OrderItem from '../models/OrderItem.js';
-import AuditLog from '../models/AuditLog.js';
+
+const { User, Order, Product, OrderItem, Review, AuditLog, sequelize } = models;
 
 /**
  * @desc    Get admin dashboard stats

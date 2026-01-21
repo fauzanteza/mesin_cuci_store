@@ -1,5 +1,10 @@
 // backend/src/services/adminOrder.service.js
-import {
+import models from '../models/index.js';
+import { Op } from 'sequelize';
+import AppError from '../utils/appError.js';
+import emailService from './email.service.js';
+
+const {
     Order,
     OrderItem,
     User,
@@ -7,10 +12,7 @@ import {
     Product,
     OrderStatusHistory,
     sequelize
-} from '../models/index.js';
-import { Op } from 'sequelize';
-import { AppError } from '../utils/appError.js';
-import emailService from './email.service.js';
+} = models;
 
 class AdminOrderService {
     async getOrders(params) {

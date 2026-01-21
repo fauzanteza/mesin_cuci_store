@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductForm from '../../components/Admin/ProductForm';
 import { toast } from 'react-hot-toast';
+import { uploadService } from '../../services/uploadService';
+import { productService } from '../../services/productService';
 
 const ProductCreatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -23,12 +25,38 @@ const ProductCreatePage: React.FC = () => {
 
     const handleSubmit = async (formData: any, images: File[]) => {
         try {
-            // In real app: API call to create product
-            console.log('Creating product:', formData, images);
+            // Upload images first
+            let uploadedImages: any[] = [];
+
+            if (images.length > 0) {
+                const uploadPromises = images.map(file => uploadService.uploadImage(file));
+                const results = await Promise.all(uploadPromises);
+
+                // Map results to format expected by backend
+                uploadedImages = results.map(res => ({
+                    url: res.data.url,
+                    publicId: res.data.filename,
+                    isPrimary: false
+                }));
+
+                // Set first image as primary if exists
+                if (uploadedImages.length > 0) {
+                    uploadedImages[0].isPrimary = true;
+                }
+            }
+
+            // Create product payload
+            const payload = {
+                ...formData,
+                images: uploadedImages
+            };
+
+            await productService.createProduct(payload);
             toast.success('Product created successfully');
             navigate('/admin/products');
-        } catch (error) {
-            toast.error('Failed to create product');
+        } catch (error: any) {
+            console.error('Create product error:', error);
+            toast.error(error.message || 'Failed to create product');
         }
     };
 
