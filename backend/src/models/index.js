@@ -25,6 +25,11 @@ import Banner from './Banner.js';
 import ReturnRequest from './ReturnRequest.js';
 import InventoryTransaction from './InventoryTransaction.js';
 import TokenBlacklist from './TokenBlacklist.js';
+import ChatMessage from './ChatMessage.js';
+import ChatRoom from './ChatRoom.js';
+import ShippingUpdate from './ShippingUpdate.js';
+import DeliveryRecord from './DeliveryRecord.js';
+
 
 // Define associations
 const defineAssociations = () => {
@@ -80,6 +85,23 @@ const defineAssociations = () => {
   CartItem.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
   WishlistItem.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
   InventoryTransaction.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
+
+  // Chat Associations
+  ChatRoom.belongsTo(User, { foreignKey: 'created_by', as: 'creator' });
+  ChatRoom.belongsTo(User, { foreignKey: 'closed_by', as: 'closer' });
+  ChatRoom.belongsToMany(User, { through: 'chat_room_participants', foreignKey: 'room_id', otherKey: 'user_id', as: 'participants' });
+  User.belongsToMany(ChatRoom, { through: 'chat_room_participants', foreignKey: 'user_id', otherKey: 'room_id', as: 'chatRooms' });
+
+  ChatRoom.hasMany(ChatMessage, { foreignKey: 'room_id', as: 'messages' });
+  ChatMessage.belongsTo(ChatRoom, { foreignKey: 'room_id', as: 'room' });
+  ChatMessage.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+
+  // Shipping & Delivery Associations
+  ShippingUpdate.belongsTo(Order, { foreignKey: 'order_id', as: 'order' });
+  Order.hasMany(ShippingUpdate, { foreignKey: 'order_id', as: 'shippingUpdates' });
+
+  DeliveryRecord.belongsTo(Order, { foreignKey: 'order_id', as: 'order' });
+  Order.hasOne(DeliveryRecord, { foreignKey: 'order_id', as: 'deliveryRecord' });
 
   // Order associations
   Order.hasMany(OrderItem, { foreignKey: 'order_id', as: 'items' });
@@ -144,6 +166,10 @@ const models = {
   ReturnRequest,
   InventoryTransaction,
   TokenBlacklist,
+  ChatMessage,
+  ChatRoom,
+  ShippingUpdate,
+  DeliveryRecord,
 
 };
 

@@ -1,20 +1,24 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
 const TokenBlacklist = sequelize.define('TokenBlacklist', {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
     },
     token: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     expiresAt: {
         type: DataTypes.DATE,
         allowNull: false,
         field: 'expires_at'
+    },
+    reason: {
+        type: DataTypes.STRING
     }
 }, {
     tableName: 'token_blacklist',
@@ -28,4 +32,4 @@ const TokenBlacklist = sequelize.define('TokenBlacklist', {
     ]
 });
 
-module.exports = TokenBlacklist;
+export default TokenBlacklist;
