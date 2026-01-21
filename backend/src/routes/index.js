@@ -1,54 +1,66 @@
 import express from 'express';
-const router = express.Router();
 
-// Import all route files
+// Import all routes
 import authRoutes from './auth.routes.js';
 import userRoutes from './user.routes.js';
 import productRoutes from './product.routes.js';
 import categoryRoutes from './category.routes.js';
-import brandRoutes from './brand.routes.js';
-import cartRoutes from './cart.routes.js';
+// import brandRoutes from './brand.routes.js'; // Missing controller
 import orderRoutes from './order.routes.js';
+import cartRoutes from './cart.routes.js';
 import paymentRoutes from './payment.routes.js';
 import reviewRoutes from './review.routes.js';
 import adminRoutes from './admin.routes.js';
 import uploadRoutes from './upload.routes.js';
-import reportRoutes from './report.routes.js';
+// import reportRoutes from './report.routes.js'; // Check if exists, user list implied it
+import publicRoutes from './public.routes.js';
+import addressRoutes from './address.routes.js';
 
-// Health check endpoint
-router.get('/health', (req, res) => {
+const router = express.Router();
+
+// Root endpoint for health check
+router.get('/', (req, res) => {
     res.status(200).json({
-        success: true,
-        message: 'API is running',
+        status: 'success',
+        message: '🚀 MesinCuci Store API is running!',
+        version: '1.0.0',
         timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV,
-        version: process.env.npm_package_version || '1.0.0'
+        endpoints: {
+            docs: '/api-docs',
+            auth: '/api/auth',
+            products: '/api/products',
+            users: '/api/users',
+            orders: '/api/orders',
+            admin: '/api/admin'
+        }
     });
 });
 
-// API version prefix
-const apiPrefix = '/api/v1';
+// API Documentation redirect
+router.get('/api-docs', (req, res) => {
+    // Replace with actual docs link if available
+    res.redirect('https://documenter.getpostman.com/view/your-docs-link');
+});
 
 // Mount routes
-router.use(`${apiPrefix}/auth`, authRoutes);
-router.use(`${apiPrefix}/users`, userRoutes);
-router.use(`${apiPrefix}/products`, productRoutes);
-router.use(`${apiPrefix}/categories`, categoryRoutes);
-router.use(`${apiPrefix}/brands`, brandRoutes);
-router.use(`${apiPrefix}/cart`, cartRoutes);
-router.use(`${apiPrefix}/orders`, orderRoutes);
-router.use(`${apiPrefix}/payments`, paymentRoutes);
-router.use(`${apiPrefix}/reviews`, reviewRoutes);
-router.use(`${apiPrefix}/admin`, adminRoutes);
-router.use(`${apiPrefix}/upload`, uploadRoutes);
-router.use(`${apiPrefix}/reports`, reportRoutes);
+// Note: We are using /api/* structure directly here if mounted at / in app.js
+// OR we can mount these as sub-routes if app.js uses /api.
+// The user request suggests app.js uses app.use('/', routes) and routes define /api/...
+// Let's use the router.use('/api/resource', ...) pattern as requested.
 
-// 404 handler for undefined routes
-router.use('*', (req, res) => {
-    res.status(404).json({
-        success: false,
-        message: `Route ${req.originalUrl} not found`
-    });
-});
+router.use('/api/auth', authRoutes);
+router.use('/api/users', userRoutes);
+router.use('/api/products', productRoutes);
+router.use('/api/categories', categoryRoutes);
+// router.use('/api/brands', brandRoutes);
+router.use('/api/orders', orderRoutes);
+router.use('/api/cart', cartRoutes);
+router.use('/api/payments', paymentRoutes);
+router.use('/api/reviews', reviewRoutes);
+router.use('/api/admin', adminRoutes);
+router.use('/api/upload', uploadRoutes);
+// router.use('/api/reports', reportRoutes);
+router.use('/api/public', publicRoutes);
+router.use('/api/addresses', addressRoutes);
 
 export default router;

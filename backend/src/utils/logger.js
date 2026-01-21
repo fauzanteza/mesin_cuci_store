@@ -1,62 +1,47 @@
 import winston from 'winston';
-import 'winston-daily-rotate-file';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const levels = {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    debug: 4,
-};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const level = () => {
-    const env = process.env.NODE_ENV || 'development';
-    const isDevelopment = env === 'development';
-    return isDevelopment ? 'debug' : 'warn';
-};
-
-const colors = {
-    error: 'red',
-    warn: 'yellow',
-    info: 'green',
-    http: 'magenta',
-    debug: 'white',
-};
-
-winston.addColors(colors);
-
-const format = winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-    winston.format.colorize({ all: true }),
-    winston.format.printf(
-        (info) => `${info.timestamp} ${info.level}: ${info.message}`,
-    ),
+// Define log format
+const logFormat = winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.errors({ stack: true }),
+    winston.format.splat(),
+    winston.format.json()
 );
 
-const transports = [
-    new winston.transports.Console(),
-    new winston.transports.DailyRotateFile({
-        filename: 'logs/error-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d',
-        level: 'error',
-    }),
-    new winston.transports.DailyRotateFile({
-        filename: 'logs/all-%DATE%.log',
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d',
-    }),
-];
-
+// Create logger instance
 const logger = winston.createLogger({
-    level: level(),
-    levels,
-    format,
-    transports,
+    level: process.env.NODE_ENV === 'development' ? 'debug' : 'info',
+    format: logFormat,
+    defaultMeta: { service: 'mesincuci-api' },
+    transports: [
+        // Write all logs with level 'error' and below to error.log
+        new winston.transports.File({
+            filename: path.join(__dirname, '../../logs/error.log'),
+            level: 'error'
+        }),
+        // Write all logs with level 'info' and below to combined.log
+        new winston.transports.File({
+            filename: path.join(__dirname, '../../logs/combined.log')
+        }),
+    ],
 });
+
+// If we're in development, also log to console
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+        format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple(),
+            winston.format.printf(({ timestamp, level, message, ...meta }) => {
+                return `${timestamp} ${level}: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`;
+            })
+        )
+    }));
+}
 
 export default logger;
