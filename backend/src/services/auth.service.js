@@ -1,10 +1,12 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const User = require('../models/User');
-const NotificationService = require('./notification.service');
-const AppError = require('../utils/appError');
-const { emailTemplates } = require('../config/mailer');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import models from '../models/index.js';
+import NotificationService from './notification.service.js';
+import AppError from '../utils/appError.js';
+import { emailTemplates } from '../config/mailer.js';
+
+const { User, AuditLog, TokenBlacklist } = models;
 
 class AuthService {
     /**
@@ -116,7 +118,6 @@ class AuthService {
             delete userResponse.resetPasswordExpires;
 
             // Log login activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId: user.id,
                 action: 'LOGIN',
@@ -321,7 +322,6 @@ class AuthService {
             }
 
             // Check if token is in blacklist
-            const TokenBlacklist = require('../models/TokenBlacklist');
             const blacklisted = await TokenBlacklist.findOne({
                 where: { token: refreshToken }
             });
@@ -352,7 +352,6 @@ class AuthService {
         try {
             // Blacklist refresh token
             if (refreshToken) {
-                const TokenBlacklist = require('../models/TokenBlacklist');
                 const decoded = jwt.decode(refreshToken);
 
                 await TokenBlacklist.create({
@@ -362,7 +361,6 @@ class AuthService {
             }
 
             // Log logout activity
-            const AuditLog = require('../models/AuditLog');
             await AuditLog.create({
                 userId,
                 action: 'LOGOUT',
@@ -502,4 +500,4 @@ class AuthService {
     }
 }
 
-module.exports = AuthService;
+export default AuthService;

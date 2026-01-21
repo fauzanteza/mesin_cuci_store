@@ -1,6 +1,6 @@
 // backend/src/controllers/userController.js
 import userService from '../services/user.service.js';
-import { AppError } from '../utils/appError.js';
+import AppError from '../utils/appError.js';
 import asyncHandler from '../utils/asyncHandler.js';
 
 export const getProfile = asyncHandler(async (req, res) => {

@@ -1,0 +1,10 @@
+file:///C:/Users/lenovo/fauzan/mesin_cuci_store/backend/src/middleware/authMiddleware.js:2
+import { prisma } from '../config/database.js';
+         ^^^^^^
+SyntaxError: The requested module '../config/database.js' does not provide an export named 'prisma'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:302:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:405:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.12.0

@@ -1,13 +1,9 @@
-const ExcelJS = require('exceljs');
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
-const path = require('path');
-const { Op } = require('sequelize');
-const Order = require('../models/Order');
-const Product = require('../models/Product');
-const User = require('../models/User');
-const OrderItem = require('../models/OrderItem');
-const InventoryTransaction = require('../models/InventoryTransaction');
+import ExcelJS from 'exceljs';
+import PDFDocument from 'pdfkit';
+import { Op } from 'sequelize';
+import models from '../models/index.js';
+
+const { Order, Product, User, OrderItem, InventoryTransaction } = models;
 
 class ReportService {
     /**
@@ -240,4 +236,4 @@ class ReportService {
     }
 }
 
-module.exports = ReportService;
+export default ReportService;
