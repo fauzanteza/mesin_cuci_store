@@ -102,6 +102,10 @@ export const getAllProducts = async (req, res, next) => {
             orderBy = [['price', 'ASC']];
         } else if (sort === 'price_high') {
             orderBy = [['price', 'DESC']];
+        } else if (sort === 'newest') {
+            orderBy = [['created_at', 'DESC']];
+        } else if (sort === 'oldest') {
+            orderBy = [['created_at', 'ASC']];
         }
 
         // Include related models

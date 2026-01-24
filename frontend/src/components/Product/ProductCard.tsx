@@ -37,7 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     // Handle case where specific props might be passed differently or default
     const discount = compare_price && compare_price > price ? Math.round(((compare_price - price) / compare_price) * 100) : 0
-    const displayImage = images && images.length > 0 ? images[0].image_url : '/images/placeholder.jpg'
+    const displayImage = images && images.length > 0 ? images[0].image_url : '/images/category-default.jpg'
 
     const handleAddToCart = () => {
         dispatch(

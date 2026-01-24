@@ -430,7 +430,8 @@ const Footer: React.FC = () => {
                 </div>
             </footer>
 
-            {/* Back to Top Button */}
+            {/* Back to Top Button and WhatsApp Float Button removed per user request */}
+            {/*
             <a
                 href="#"
                 className={`back-to-top ${showBackToTop ? 'visible' : ''}`}
@@ -440,7 +441,6 @@ const Footer: React.FC = () => {
                 <i className="fas fa-chevron-up"></i>
             </a>
 
-            {/* WhatsApp Float Button */}
             <a
                 href="https://wa.me/6281234567890"
                 className="whatsapp-float"
@@ -450,6 +450,7 @@ const Footer: React.FC = () => {
             >
                 <i className="fab fa-whatsapp"></i>
             </a>
+            */}
         </>
     );
 };

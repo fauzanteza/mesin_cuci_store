@@ -1,0 +1,32 @@
+
+> mesin-cuci-frontend@1.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v4.5.14[39m  [2mready in [0m[1m335[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh[22m[2m to show help[22m
+[2m9:15:15 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Product/CategoryCard.tsx, /src/styles/globals.css[22m
+[2m9:33:46 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/globals.css, /src/pages/HomePage.tsx[22m
+[2m9:37:33 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Layout/Footer.tsx, /src/styles/globals.css[22m
+[2m9:37:41 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Layout/Footer.tsx, /src/styles/globals.css[22m
+[2m9:39:13 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Layout/Footer.tsx, /src/styles/globals.css[22m
+[2m9:40:07 PM[22m [36m[1m[vite][22m[39m [32m✨ new dependencies optimized: [33m@mui/material, @mui/icons-material[32m[39m
+[2m9:40:07 PM[22m [36m[1m[vite][22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m9:46:20 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.tsx[22m
+[2m9:54:10 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Auth/RegisterPage.tsx, /src/styles/globals.css[22m
+[2m10:02:43 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Auth/LoginPage.tsx, /src/styles/globals.css[22m
+[2m10:10:26 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Auth/Auth.css[22m
+[2m10:21:02 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Auth/RegisterPage.tsx, /src/styles/globals.css[22m
+[2m10:22:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Static/NotFoundPage.tsx, /src/styles/globals.css[22m
+[2m10:50:26 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Layout/Footer.tsx, /src/styles/globals.css[22m
+[2m11:17:51 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m11:18:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m11:18:09 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Product/ProductCard.tsx, /src/styles/globals.css[22m
+[2m12:16:01 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/globals.css, /src/pages/HomePage.tsx, /src/pages/ProductsPage.tsx[22m
+[2m12:23:14 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/globals.css, /src/pages/HomePage.tsx, /src/pages/ProductsPage.tsx[22m
+[2m12:47:28 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m12:47:58 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+^C^C

@@ -65,27 +65,6 @@ const RegisterPage = () => {
 
     return (
         <div className="auth-body">
-            {/* Header */}
-            <header className="auth-header">
-                <Link to="/" className="auth-logo">
-                    <div className="auth-logo-icon">
-                        <i className="fas fa-soap"></i>
-                    </div>
-                    <div className="auth-logo-text">MesinCuci Store</div>
-                </Link>
-
-                <div className="auth-search-bar">
-                    <i className="fas fa-search auth-search-icon"></i>
-                    <input type="text" placeholder="Cari mesin cuci, sparepart..." />
-                </div>
-
-                <div>
-                    <Link to="/cart" className="cart-btn" style={{ color: 'var(--dark)', marginRight: '1rem' }}>
-                        <i className="fas fa-shopping-cart"></i>
-                    </Link>
-                </div>
-            </header>
-
             <div className="auth-container">
                 {/* Welcome Section */}
                 <div className="welcome-section">
@@ -157,7 +136,7 @@ const RegisterPage = () => {
                                     type="text"
                                     id="name"
                                     className="form-control"
-                                    placeholder="Fauzan Teza Saputra"
+                                    placeholder="Nama lengkap Anda"
                                     {...register('name', { required: 'Nama lengkap wajib diisi' })}
                                 />
                                 {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
@@ -169,7 +148,7 @@ const RegisterPage = () => {
                                     type="email"
                                     id="email"
                                     className="form-control"
-                                    placeholder="fauzan2@gmail.com"
+                                    placeholder="nama@gmail.com"
                                     {...register('email', { required: 'Email wajib diisi' })}
                                 />
                                 <small style={{ color: 'var(--secondary)', marginTop: '0.25rem', display: 'block' }}>
@@ -327,67 +306,6 @@ const RegisterPage = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Footer */}
-            <footer className="auth-footer">
-                <div className="footer-grid">
-                    <div className="footer-section">
-                        <h3>MesinCuci Store</h3>
-                        <p style={{ color: '#cbd5e1', lineHeight: '1.6' }}>
-                            Menyediakan mesin cuci berkualitas terbaik dengan harga terjangkau
-                            untuk kebutuhan rumah tangga dan laundry Anda.
-                        </p>
-                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-                            <a href="#" style={{ color: 'white' }}><i className="fab fa-facebook fa-lg"></i></a>
-                            <a href="#" style={{ color: 'white' }}><i className="fab fa-instagram fa-lg"></i></a>
-                            <a href="#" style={{ color: 'white' }}><i className="fab fa-twitter fa-lg"></i></a>
-                            <a href="#" style={{ color: 'white' }}><i className="fab fa-youtube fa-lg"></i></a>
-                        </div>
-                    </div>
-
-                    <div className="footer-section">
-                        <h3>Tautan Cepat</h3>
-                        <ul className="footer-links">
-                            <li><Link to="/products">Produk</Link></li>
-                            <li><Link to="/about">Tentang Kami</Link></li>
-                            <li><Link to="/contact">Hubungi Kami</Link></li>
-                            <li><Link to="/faq">FAQ</Link></li>
-                        </ul>
-                    </div>
-
-                    <div className="footer-section">
-                        <h3>Layanan Pelanggan</h3>
-                        <ul className="footer-links">
-                            <li><Link to="/track-order">Lacak Pesanan</Link></li>
-                            <li><Link to="/privacy-policy">Kebijakan Privasi</Link></li>
-                            <li><Link to="/terms">Syarat & Ketentuan</Link></li>
-                            <li><Link to="/warranty">Garansi</Link></li>
-                        </ul>
-                    </div>
-
-                    <div className="footer-section">
-                        <h3>Hubungi Kami</h3>
-                        <div className="contact-info">
-                            <div className="contact-item">
-                                <i className="fas fa-map-marker-alt"></i>
-                                <span>JL. Teknologi No. 123, Jakarta Selatan, 12190</span>
-                            </div>
-                            <div className="contact-item">
-                                <i className="fas fa-phone"></i>
-                                <span>+62 812 3456 7890</span>
-                            </div>
-                            <div className="contact-item">
-                                <i className="fas fa-envelope"></i>
-                                <span>support@mesincuci.store</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="footer-bottom">
-                    <p>&copy; 2024 MesinCuci Store. Hak Cipta Dilindungi.</p>
-                </div>
-            </footer>
         </div>
     )
 }

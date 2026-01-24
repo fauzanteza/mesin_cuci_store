@@ -48,13 +48,13 @@ export const productService = {
 
     // Get categories
     getCategories: async () => {
-        const response = await api.get<{ success: boolean, data: Category[] }>('/categories')
-        return response.data.data
+        const response = await api.get<{ success: boolean, data: { categories: Category[] } }>('/categories')
+        return response.data.data.categories
     },
 
     // Search products
     searchProducts: async (query: string) => {
-        const response = await api.get<{ success: boolean, data: { products: Product[] } }>(`/search?q=${query}`)
+        const response = await api.get<{ success: boolean, data: { products: Product[] } }>(`/products/search?q=${query}`)
         return response.data.data.products
     },
 

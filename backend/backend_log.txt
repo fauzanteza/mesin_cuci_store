@@ -1,0 +1,1280 @@
+
+> mesin-cuci-backend@1.0.0 dev
+> nodemon src/server.js
+
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node src/server.js`[39m
+2026-01-21 21:08:41 [32minfo[39m: ✅ Database connection established successfully. {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m: 
+        ====================================
+        🚀 SERVER STARTED SUCCESSFULLY
+        ====================================
+        🔗 URL: http://localhost:5000
+        🌍 Environment: development
+        🗄️ Database: mesin_cuci_store
+        ⏰ Time: 1/21/2026, 9:08:41 PM
+        ====================================
+       {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m: 📋 Available Endpoints: {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m:    GET  /          - API Health Check {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m:    GET  /api-docs  - API Documentation {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m:    POST /api/auth/register - Register User {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m:    POST /api/auth/login    - Login User {
+  "service": "mesincuci-api"
+}
+2026-01-21 21:08:41 [32minfo[39m:    GET  /api/products      - Get Products {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?limit=8&sort=rating [32m200[0m 29.597 ms - 121[0m
+[0mGET /api/categories [32m200[0m 23.854 ms - 881[0m
+[0mGET /api/categories [36m304[0m 18.382 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 20.604 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 8.543 ms - -[0m
+[0mGET /api/categories [36m304[0m 5.043 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 5.702 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.074 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 5.053 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.784 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 4.744 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.628 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 6.660 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.897 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 20.023 ms - -[0m
+[0mGET /api/categories [36m304[0m 17.168 ms - -[0m
+[0mGET /api/products [32m200[0m 10.386 ms - 122[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 80.188 ms - -[0m
+[0mGET /api/categories [36m304[0m 69.751 ms - -[0m
+[0mGET /api/categories [36m304[0m 102.700 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 109.978 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 105.102 ms - -[0m
+[0mGET /api/categories [36m304[0m 91.163 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 10.137 ms - -[0m
+[0mGET /api/categories [36m304[0m 6.913 ms - -[0m
+[0mGET /api/categories [36m304[0m 5.039 ms - -[0m
+[0mGET /api/categories [36m304[0m 10.892 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 29.064 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 9.472 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.511 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 16.724 ms - -[0m
+[0mGET /api/categories [36m304[0m 9.374 ms - -[0m
+[0mGET /api/categories [36m304[0m 51.182 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 76.284 ms - -[0m
+[0mGET /api/categories [36m304[0m 25.214 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 34.267 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 14.658 ms - -[0m
+[0mGET /api/categories [36m304[0m 11.960 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 30.670 ms - -[0m
+[0mGET /api/categories [36m304[0m 14.074 ms - -[0m
+2026-01-21 22:11:14 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:11:14 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:11:14 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 81.876 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 110.085 ms - -[0m
+2026-01-21 22:11:15 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:11:15 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:11:15 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.674 ms - -[0m
+2026-01-21 22:14:49 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:14:49 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:14:49 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 11.371 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 18.404 ms - -[0m
+2026-01-21 22:14:50 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:14:50 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:14:50 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 5.642 ms - -[0m
+2026-01-21 22:19:30 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:19:30 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:19:30 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 14.980 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 23.639 ms - -[0m
+2026-01-21 22:19:31 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:19:31 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:19:31 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 2.728 ms - -[0m
+2026-01-21 22:22:39 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:22:39 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:22:39 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 16.698 ms - -[0m
+2026-01-21 22:22:41 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:22:41 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:22:41 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 50.902 ms - -[0m
+2026-01-21 22:25:31 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:25:31 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:25:31 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 19.189 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 42.043 ms - -[0m
+2026-01-21 22:25:32 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:25:32 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:25:32 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 7.296 ms - -[0m
+[0mGET /api/categories [36m304[0m 14.347 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 37.906 ms - -[0m
+2026-01-21 22:27:56 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:27:56 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:27:56 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 51.400 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 57.611 ms - -[0m
+2026-01-21 22:27:57 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:27:57 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:27:58 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 15.388 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 89.272 ms - -[0m
+[0mGET /api/categories [36m304[0m 23.324 ms - -[0m
+2026-01-21 22:35:45 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:35:45 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:35:45 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 14.141 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.547 ms - -[0m
+2026-01-21 22:35:46 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:35:46 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:35:46 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 7.905 ms - -[0m
+[0mGET /api/categories [36m304[0m 22.207 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 91.518 ms - -[0m
+[0mGET /api/categories [36m304[0m 153.637 ms - -[0m
+2026-01-21 22:49:08 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:49:08 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:49:08 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 152.939 ms - -[0m
+2026-01-21 22:49:09 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:49:09 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:49:09 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 11.513 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 6.659 ms - -[0m
+[0mGET /api/categories [36m304[0m 18.907 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 24.662 ms - -[0m
+2026-01-21 22:58:39 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:39 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:39 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 68.123 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 83.191 ms - -[0m
+2026-01-21 22:58:40 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:40 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:40 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 31.204 ms - -[0m
+2026-01-21 22:58:57 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:57 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:57 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 18.575 ms - -[0m
+2026-01-21 22:58:58 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:58 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 22:58:58 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.335 ms - -[0m
+2026-01-21 23:01:28 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:01:28 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:01:28 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 14.132 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 26.137 ms - -[0m
+2026-01-21 23:01:29 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:01:29 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:01:29 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 13.580 ms - -[0m
+[0mGET /api/categories [36m304[0m 10.111 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 40.200 ms - -[0m
+2026-01-21 23:03:02 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:02 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:02 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 5.529 ms - -[0m
+2026-01-21 23:03:03 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:03 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:03 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 12.303 ms - -[0m
+2026-01-21 23:03:18 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:18 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:18 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 10.083 ms - -[0m
+2026-01-21 23:03:19 [31merror[39m: ❌ 500 error: Unknown column 'Product.newest' in 'order clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:19 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:03:19 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.779 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+2026-01-21 23:17:56 [32minfo[39m: ✅ Database connection established successfully. {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m: 
+        ====================================
+        🚀 SERVER STARTED SUCCESSFULLY
+        ====================================
+        🔗 URL: http://localhost:5000
+        🌍 Environment: development
+        🗄️ Database: mesin_cuci_store
+        ⏰ Time: 1/21/2026, 11:17:56 PM
+        ====================================
+       {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m: 📋 Available Endpoints: {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m:    GET  /          - API Health Check {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m:    GET  /api-docs  - API Documentation {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m:    POST /api/auth/register - Register User {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m:    POST /api/auth/login    - Login User {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:17:56 [32minfo[39m:    GET  /api/products      - Get Products {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [32m200[0m 53.533 ms - 122[0m
+[0mGET /api/categories [36m304[0m 34.871 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+2026-01-21 23:22:40 [32minfo[39m: ✅ Database connection established successfully. {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m: 
+        ====================================
+        🚀 SERVER STARTED SUCCESSFULLY
+        ====================================
+        🔗 URL: http://localhost:5000
+        🌍 Environment: development
+        🗄️ Database: mesin_cuci_store
+        ⏰ Time: 1/21/2026, 11:22:40 PM
+        ====================================
+       {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m: 📋 Available Endpoints: {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m:    GET  /          - API Health Check {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m:    GET  /api-docs  - API Documentation {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m:    POST /api/auth/register - Register User {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m:    POST /api/auth/login    - Login User {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:22:40 [32minfo[39m:    GET  /api/products      - Get Products {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 36.545 ms - -[0m
+[0mGET /api/categories [36m304[0m 21.338 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 36.757 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 42.471 ms - -[0m
+[0mGET /api/categories [36m304[0m 76.079 ms - -[0m
+[0mGET /api/products?category=front-load&min_price=0&max_price=20000000&sort=newest [32m200[0m 13.858 ms - 122[0m
+[0mGET /api/products?category=top-load&min_price=0&max_price=20000000&sort=newest [32m200[0m 7.573 ms - 122[0m
+[0mGET /api/products?category=2-tabung&min_price=0&max_price=20000000&sort=newest [32m200[0m 54.605 ms - 122[0m
+[0mGET /api/products?category=dryer&min_price=0&max_price=20000000&sort=newest [32m200[0m 12.844 ms - 122[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 22.680 ms - -[0m
+[0mGET /api/categories [36m304[0m 12.236 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 5.271 ms - -[0m
+[0mGET / [32m200[0m 6.647 ms - 270[0m
+[0mGET /favicon.ico [33m404[0m 11.484 ms - 503[0m
+2026-01-21 23:57:13 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:13 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:13 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:13 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:13 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:13 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 50.830 ms - -[0m
+[0mGET /api/categories [31m500[0m 45.258 ms - -[0m
+2026-01-21 23:57:14 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:14 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:14 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:14 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:14 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-21 23:57:14 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 2.945 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 4.619 ms - -[0m
+[0mGET / [32m200[0m 0.392 ms - 270[0m
+[0mGET / [32m200[0m 0.431 ms - 270[0m
+2026-01-22 00:05:18 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:18 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:18 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:18 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:18 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:18 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 72.767 ms - -[0m
+[0mGET /api/categories [31m500[0m 26.008 ms - -[0m
+2026-01-22 00:05:19 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:19 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:19 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:19 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:19 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:05:19 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 13.085 ms - -[0m
+[0mGET /api/categories [31m500[0m 3.392 ms - -[0m
+2026-01-22 00:06:32 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:32 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:32 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:32 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:32 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:32 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 27.799 ms - -[0m
+[0mGET /api/categories [31m500[0m 24.446 ms - -[0m
+2026-01-22 00:06:33 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:33 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:33 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:33 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:33 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:06:33 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 39.925 ms - -[0m
+[0mGET /api/categories [31m500[0m 2.777 ms - -[0m
+[0mGET /api/categories [32m200[0m 117.561 ms - 844[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [32m200[0m 128.584 ms - -[0m
+[0mGET /api/categories [36m304[0m 12.769 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 21.766 ms - -[0m
+[0mGET /api/categories [36m304[0m 5.305 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 17.921 ms - -[0m
+[0mGET /api/categories [36m304[0m 9.121 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 14.456 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.356 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 8.382 ms - -[0m
+[0mGET /api/categories [36m304[0m 6.172 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 11.850 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.691 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.213 ms - -[0m
+[0mGET /api/categories [36m304[0m 10.496 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 15.339 ms - -[0m
+[0mGET /api/categories [36m304[0m 32.830 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 44.450 ms - -[0m
+[0mGET /api/categories [36m304[0m 6.875 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 15.602 ms - -[0m
+[0mGET /api/categories [36m304[0m 12.348 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 47.648 ms - -[0m
+[0mGET /api/products [32m200[0m 31.829 ms - -[0m
+[0mGET /api/categories [36m304[0m 21.019 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 29.278 ms - -[0m
+[0mGET /api/products [36m304[0m 20.482 ms - -[0m
+[0mGET /api/products [36m304[0m 23.972 ms - -[0m
+[0mGET /api/categories [36m304[0m 8.183 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 12.976 ms - -[0m
+[0mGET /api/categories [36m304[0m 21.931 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 50.992 ms - -[0m
+[0mGET / [32m200[0m 0.908 ms - 270[0m
+[0mGET /api/categories [36m304[0m 7.778 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 13.186 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.376 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 10.694 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.029 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 8.696 ms - -[0m
+[0mGET /api/categories [36m304[0m 5.550 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 10.134 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.849 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 10.322 ms - -[0m
+[0mGET /api/categories [36m304[0m 1.395 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 29.203 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.123 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.118 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.972 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.444 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.287 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 8.148 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.381 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.993 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.894 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.770 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.039 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.690 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.303 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 5.815 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.717 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.957 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.564 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.230 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.948 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.139 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.156 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.701 ms - -[0m
+[0mGET /api/categories [36m304[0m 7.793 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 14.249 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.465 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.780 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.081 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.338 ms - -[0m
+[0mGET /api/categories [36m304[0m 8.166 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [32m200[0m 13.313 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.165 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 8.380 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.981 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 9.117 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.316 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 11.201 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.039 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 8.044 ms - -[0m
+[0mGET /api/categories [36m304[0m 10.217 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [32m200[0m 18.287 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.772 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [32m200[0m 14.726 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.683 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.886 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.397 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 7.166 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.794 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 8.294 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.555 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.432 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.753 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 5.966 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.112 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.297 ms - -[0m
+[0mGET /api/categories [36m304[0m 2.651 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 6.613 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 13.678 ms - -[0m
+[0mGET /api/categories [32m200[0m 13.288 ms - 844[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [32m200[0m 22.966 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node src/server.js`[39m
+2026-01-22 00:23:21 [32minfo[39m: ✅ Database connection established successfully. {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m: 
+        ====================================
+        🚀 SERVER STARTED SUCCESSFULLY
+        ====================================
+        🔗 URL: http://localhost:5000
+        🌍 Environment: development
+        🗄️ Database: mesin_cuci_store
+        ⏰ Time: 1/22/2026, 12:23:21 AM
+        ====================================
+       {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m: 📋 Available Endpoints: {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m:    GET  /          - API Health Check {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m:    GET  /api-docs  - API Documentation {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m:    POST /api/auth/register - Register User {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m:    POST /api/auth/login    - Login User {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:23:21 [32minfo[39m:    GET  /api/products      - Get Products {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 32.612 ms - -[0m
+[0mGET /api/categories [36m304[0m 10.203 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 20.379 ms - -[0m
+[0mGET /api/categories [32m200[0m 12.802 ms - 844[0m
+[0mGET /api/products?limit=8&sort=rating [32m200[0m 19.934 ms - -[0m
+[0mGET /api/categories [36m304[0m 8.852 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 21.284 ms - -[0m
+[0mGET /api/categories [36m304[0m 10.105 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [32m200[0m 17.034 ms - -[0m
+[0mGET /api/categories [36m304[0m 6.753 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 18.685 ms - -[0m
+[0mGET /api/categories [36m304[0m 3.710 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 8.452 ms - -[0m
+[0mGET /api/categories [36m304[0m 7.086 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 17.229 ms - -[0m
+[0mGET /api/categories [36m304[0m 9.681 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [36m304[0m 14.182 ms - -[0m
+[0mGET /api/categories [36m304[0m 4.661 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [36m304[0m 8.239 ms - -[0m
+2026-01-22 00:37:27 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:27 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:27 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:27 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:27 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:27 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 15.495 ms - -[0m
+[0mGET /api/categories [31m500[0m 11.206 ms - -[0m
+2026-01-22 00:37:28 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:28 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:28 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:28 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:28 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:28 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 2.691 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 4.749 ms - -[0m
+2026-01-22 00:37:35 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:35 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:35 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:35 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:35 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:35 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 2.950 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.752 ms - -[0m
+2026-01-22 00:37:36 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:36 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:36 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:36 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:36 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:36 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 4.057 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 4.239 ms - -[0m
+2026-01-22 00:37:41 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:41 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:41 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:41 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:41 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:41 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 3.310 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 4.943 ms - -[0m
+2026-01-22 00:37:42 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:42 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:42 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:42 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:42 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:42 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 3.836 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 4.767 ms - -[0m
+2026-01-22 00:37:47 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:47 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:47 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:47 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:47 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:47 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 4.037 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.502 ms - -[0m
+2026-01-22 00:37:48 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:48 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:48 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:48 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:48 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:37:48 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 3.283 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.478 ms - -[0m
+2026-01-22 00:38:25 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:25 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:25 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:25 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:25 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:25 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 8.528 ms - -[0m
+[0mGET /api/categories [31m500[0m 5.624 ms - -[0m
+2026-01-22 00:38:26 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:26 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:26 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:26 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:26 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:26 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 5.363 ms - -[0m
+[0mGET /api/categories [31m500[0m 3.322 ms - -[0m
+2026-01-22 00:38:34 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:34 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:34 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:34 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:34 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:34 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 4.572 ms - -[0m
+[0mGET /api/categories [31m500[0m 3.592 ms - -[0m
+2026-01-22 00:38:35 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:35 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:35 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:35 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:35 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:35 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.316 ms - -[0m
+[0mGET /api/categories [31m500[0m 2.107 ms - -[0m
+2026-01-22 00:38:45 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:45 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:45 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:45 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:45 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:45 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 28.046 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 30.278 ms - -[0m
+2026-01-22 00:38:46 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:46 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:46 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:46 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:46 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:46 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 4.642 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 4.295 ms - -[0m
+[0mGET / [32m200[0m 0.505 ms - 270[0m
+[0mGET / [32m200[0m 0.241 ms - 270[0m
+2026-01-22 00:38:59 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:59 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:59 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:59 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:59 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:38:59 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 12.249 ms - -[0m
+[0mGET /api/categories [31m500[0m 8.601 ms - -[0m
+2026-01-22 00:39:00 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:00 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:00 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:00 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:00 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:00 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 4.192 ms - -[0m
+[0mGET /api/categories [31m500[0m 2.534 ms - -[0m
+2026-01-22 00:39:03 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:03 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:03 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:03 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:03 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:03 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 7.413 ms - -[0m
+[0mGET /api/categories [31m500[0m 5.630 ms - -[0m
+2026-01-22 00:39:04 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:04 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:04 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:04 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:04 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:04 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 2.012 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 3.178 ms - -[0m
+2026-01-22 00:39:24 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:24 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:24 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:24 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:24 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:24 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 13.139 ms - -[0m
+[0mGET /api/categories [31m500[0m 9.788 ms - -[0m
+2026-01-22 00:39:25 [31merror[39m: ❌ 500 error: Unknown column 'Product.deleted_at' in 'where clause' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:25 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:25 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:25 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:25 [31merror[39m: 🌐 URL: /api/categories {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:39:25 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [31m500[0m 2.046 ms - -[0m
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 3.352 ms - -[0m
+2026-01-22 00:52:58 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:52:58 [31merror[39m: 🌐 URL: /api/auth/login {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:52:58 [31merror[39m: 📱 Method: POST {
+  "service": "mesincuci-api"
+}
+[0mPOST /api/auth/login [31m500[0m 149.036 ms - -[0m
+2026-01-22 00:54:35 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:54:35 [31merror[39m: 🌐 URL: /api/auth/login {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:54:35 [31merror[39m: 📱 Method: POST {
+  "service": "mesincuci-api"
+}
+[0mPOST /api/auth/login [31m500[0m 46.072 ms - -[0m
+2026-01-22 00:57:03 [31merror[39m: ❌ 500 error: Unknown column 'deleted_at' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:57:03 [31merror[39m: 🌐 URL: /api/auth/login {
+  "service": "mesincuci-api"
+}
+2026-01-22 00:57:03 [31merror[39m: 📱 Method: POST {
+  "service": "mesincuci-api"
+}
+[0mPOST /api/auth/login [31m500[0m 35.786 ms - -[0m
+[0mGET /api/categories [32m200[0m 168.403 ms - 902[0m
+2026-01-22 01:07:30 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:31 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:31 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:31 [31merror[39m: ❌ 401 fail: Incorrect email or password {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:31 [31merror[39m: 🌐 URL: /api/auth/login {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:31 [31merror[39m: 📱 Method: POST {
+  "service": "mesincuci-api"
+}
+[0mPOST /api/auth/login [33m401[0m 1023.524 ms - 362[0m
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 989.793 ms - -[0m
+2026-01-22 01:07:33 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:33 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:33 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 194.298 ms - -[0m
+2026-01-22 01:07:41 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:41 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:41 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 102.274 ms - -[0m
+2026-01-22 01:07:42 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:42 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:07:42 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 151.368 ms - -[0m
+2026-01-22 01:08:03 [31merror[39m: ❌ 401 fail: Incorrect email or password {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:03 [31merror[39m: 🌐 URL: /api/auth/login {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:03 [31merror[39m: 📱 Method: POST {
+  "service": "mesincuci-api"
+}
+[0mPOST /api/auth/login [33m401[0m 11.813 ms - 362[0m
+2026-01-22 01:08:08 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:08 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:08 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/categories [36m304[0m 21.899 ms - -[0m
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 28.039 ms - -[0m
+2026-01-22 01:08:09 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:09 [31merror[39m: 🌐 URL: /api/products?limit=8&sort=rating {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:09 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?limit=8&sort=rating [31m500[0m 6.567 ms - -[0m
+2026-01-22 01:08:20 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:20 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:20 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 17.354 ms - -[0m
+2026-01-22 01:08:22 [31merror[39m: ❌ 500 error: Unknown column 'Product.views_count' in 'field list' {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:22 [31merror[39m: 🌐 URL: /api/products?min_price=0&max_price=20000000&sort=newest {
+  "service": "mesincuci-api"
+}
+2026-01-22 01:08:22 [31merror[39m: 📱 Method: GET {
+  "service": "mesincuci-api"
+}
+[0mGET /api/products?min_price=0&max_price=20000000&sort=newest [31m500[0m 5.648 ms - -[0m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node src/server.js`[39m
+2026-01-22 01:11:32 [31merror[39m: ❌ Unable to connect to the database: {
+  "service": "mesincuci-api",
+  "name": "SequelizeConnectionRefusedError",
+  "parent": {
+    "code": "ECONNREFUSED",
+    "fatal": true
+  },
+  "original": {
+    "code": "ECONNREFUSED",
+    "fatal": true
+  },
+  "stack": "SequelizeConnectionRefusedError\n    at ConnectionManager.connect (C:\\Users\\lenovo\\fauzan\\mesin_cuci_store\\backend\\node_modules\\sequelize\\lib\\dialects\\mysql\\connection-manager.js:92:17)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async ConnectionManager._connect (C:\\Users\\lenovo\\fauzan\\mesin_cuci_store\\backend\\node_modules\\sequelize\\lib\\dialects\\abstract\\connection-manager.js:222:24)\n    at async C:\\Users\\lenovo\\fauzan\\mesin_cuci_store\\backend\\node_modules\\sequelize\\lib\\dialects\\abstract\\connection-manager.js:174:32\n    at async ConnectionManager.getConnection (C:\\Users\\lenovo\\fauzan\\mesin_cuci_store\\backend\\node_modules\\sequelize\\lib\\dialects\\abstract\\connection-manager.js:197:7)\n    at async C:\\Users\\lenovo\\fauzan\\mesin_cuci_store\\backend\\node_modules\\sequelize\\lib\\sequelize.js:305:26\n    at async Sequelize.authenticate (C:\\Users\\lenovo\\fauzan\\mesin_cuci_store\\backend\\node_modules\\sequelize\\lib\\sequelize.js:457:5)\n    at async testDatabaseConnection (file:///C:/Users/lenovo/fauzan/mesin_cuci_store/backend/src/server.js:16:9)\n    at async startServer (file:///C:/Users/lenovo/fauzan/mesin_cuci_store/backend/src/server.js:32:9)"
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+^C^C

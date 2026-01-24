@@ -20,6 +20,7 @@ const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage')
 
 const LoginPage = lazy(() => import('./pages/Auth/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'))
+const PromoPage = lazy(() => import('./pages/PromoPage'))
 
 // User Pages
 const UserDashboardPage = lazy(() => import('./pages/User/DashboardPage'))
@@ -32,10 +33,16 @@ const UserSettingsPage = lazy(() => import('./pages/User/UserSettingsPage'))
 
 // Admin Pages
 const AdminDashboard = lazy(() => import('./pages/Admin/DashboardPage'))
-const AdminProducts = lazy(() => import('./pages/Admin/ProductsPage')) // Corrected path if needed, previously 'Products'
-const AdminOrders = lazy(() => import('./pages/Admin/OrdersPage')) // Corrected path if needed, previously 'Orders'
-const AdminCustomers = lazy(() => import('./pages/Admin/UsersPage')) // Corrected path to UsersPage based on list
-const AdminReports = lazy(() => import('./pages/Admin/ReportsPage')) // Corrected path based on list
+const AdminProducts = lazy(() => import('./pages/Admin/ProductsPage'))
+const AdminProductCreate = lazy(() => import('./pages/Admin/ProductCreatePage'))
+const AdminProductEdit = lazy(() => import('./pages/Admin/ProductEditPage'))
+const AdminOrders = lazy(() => import('./pages/Admin/OrdersPage'))
+const AdminOrderDetail = lazy(() => import('./pages/Admin/OrderDetailPage'))
+const AdminCategories = lazy(() => import('./pages/Admin/CategoriesPage'))
+const AdminBrands = lazy(() => import('./pages/Admin/BrandsPage'))
+const AdminCustomers = lazy(() => import('./pages/Admin/UsersPage'))
+const AdminUserDetail = lazy(() => import('./pages/Admin/UserDetailPage'))
+const AdminReports = lazy(() => import('./pages/Admin/ReportsPage'))
 const AdminSettings = lazy(() => import('./pages/Admin/SettingsPage'))
 const AdminLogs = lazy(() => import('./pages/Admin/LogsPage'))
 
@@ -60,6 +67,7 @@ function App() {
                             <Route index element={<HomePage />} />
                             <Route path="products" element={<ProductsPage />} />
                             <Route path="products/:id" element={<ProductDetailPage />} />
+                            <Route path="promos" element={<PromoPage />} />
                             <Route path="cart" element={<CartPage />} />
 
                             {/* Static Pages */}
@@ -95,8 +103,14 @@ function App() {
                                 <Route path="admin">
                                     <Route index element={<AdminDashboard />} />
                                     <Route path="products" element={<AdminProducts />} />
+                                    <Route path="products/create" element={<AdminProductCreate />} />
+                                    <Route path="products/edit/:id" element={<AdminProductEdit />} />
+                                    <Route path="categories" element={<AdminCategories />} />
+                                    <Route path="brands" element={<AdminBrands />} />
                                     <Route path="orders" element={<AdminOrders />} />
+                                    <Route path="orders/:id" element={<AdminOrderDetail />} />
                                     <Route path="customers" element={<AdminCustomers />} />
+                                    <Route path="customers/:id" element={<AdminUserDetail />} />
                                     <Route path="reports" element={<AdminReports />} />
                                     <Route path="settings" element={<AdminSettings />} />
                                     <Route path="logs" element={<AdminLogs />} />
